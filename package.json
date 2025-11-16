@@ -1,0 +1,29 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "chat",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build --prefix frontend",
+    "dev": "npm run dev --prefix frontend",
+    "preview": "npm run preview --prefix frontend",
+    "start": "npx start-server -s ./frontend/dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foxxdogg/frontend-project-12.git"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "foxxdogg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/foxxdogg/frontend-project-12/issues"
+  },
+  "homepage": "https://github.com/foxxdogg/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.4"
+  }
+}
