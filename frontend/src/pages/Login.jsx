@@ -17,6 +17,8 @@ const Login = () => {
       const response = await axios.post('/api/v1/login', values);
       const { token } = response.data;
       const user = { username: values.username };
+      console.log('VALUES:', values);
+      console.log('USER:', user);
       dispatch(login({ token, user }));
       navigate('/');
     } catch (error) {
