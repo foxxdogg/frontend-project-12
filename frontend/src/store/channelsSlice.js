@@ -2,6 +2,7 @@ import {
   createSlice,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
+import { logout } from './authSlice';
 
 const channelsAdapter = createEntityAdapter();
 
@@ -19,6 +20,9 @@ const channelsSlice = createSlice({
       // eslint-disable-next-line no-param-reassign
       state.currentChannelId = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(logout, () => initialState);
   },
 });
 
