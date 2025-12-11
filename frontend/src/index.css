@@ -1,0 +1,11 @@
+.btn-light:not(.active):hover {
+  background-color: inherit !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  outline: none !important;
+}
+
+.input-focus {
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
+}
