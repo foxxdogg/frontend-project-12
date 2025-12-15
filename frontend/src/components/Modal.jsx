@@ -8,16 +8,17 @@ import { useRef, useEffect } from 'react';
 
 const Modal = ({
   title,
-  onClose,
-  onSubmit,
   initialValues,
   validationSchema,
   submitText,
-  children,
-  error,
+  onClose,
+  onSubmit,
   isSubmitting,
+  error,
+  children,
 }) => {
   const isDragging = useRef(false);
+  const removeBtnRef = useRef(null);
 
   const handleMouseDown = () => {
     isDragging.current = false;
@@ -32,8 +33,6 @@ const Modal = ({
       onClose();
     }
   };
-
-  const removeBtnRef = useRef(null);
 
   useEffect(() => {
     if (submitText === 'Remove' && removeBtnRef.current) {

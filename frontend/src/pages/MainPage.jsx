@@ -20,27 +20,40 @@ import { logout } from '../store/authSlice';
 import socket from '../socket';
 import AddChannelModal from '../components/AddChannelModal';
 import RenameChannelModal from '../components/RenameChannelModal';
-import Modal from '../components/Modal';
+import RemoveChannelModal from '../components/RemoveChannelModal';
+import Header from '../components/Header';
+import LogoutButton from '../components/LogoutButton.jsx';
+import MessagesList from '../components/MessagesList';
 
 const MainPage = () => {
   const [messageText, setMessageText] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(null);
   const [isConnected, setIsConnected] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isRemoveChannelModalOpen, setIsRemoveChannelModalOpen] = useState(false);
+
+  const [modals, setModals] = useState({
+    add: false,
+    rename: false,
+    remove: false,
+  });
+  const closeModal = (type) => {
+    setModals((prev) => ({ ...prev, [type]: false }));
+  };
+  const openModal = (type) => {
+    setModals((prev) => ({ ...prev, [type]: true }));
+  };
+
   const [isRemoving, setIsRemoving] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
-  const [isRenameChannelModalOpen, setIsRenameChannelModalOpen] = useState(false);
   const [channelToDeleteId, setChannelToDeleteId] = useState(null);
   const [channelToRenameName, setChannelToRenameName] = useState(null);
   const [channelToRenameId, setChannelToRenameId] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
   const [removeError, setRemoveError] = useState(null);
 
-  const messagesEndRef = useRef(null);
+  // const messagesEndRef = useRef(null);
   const activeChannelRef = useRef(null);
-  const isFirstScroll = useRef(true);
+  // const isFirstScroll = useRef(true);
   const inputRef = useRef(null);
 
   const navigate = useNavigate();
@@ -71,6 +84,12 @@ const MainPage = () => {
     console.log('Messages:', messages);
   }, [token, currentUser, channels, currentChannelId, messages]);
 
+  useEffect(() => {
+    if (!currentUser || !token) {
+      navigate('/login', { replace: true });
+    }
+  }, [currentUser, token, navigate]);
+
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (inputRef.current) {
@@ -91,16 +110,13 @@ const MainPage = () => {
 
   const sendMessage = async () => {
     if (!messageText.trim()) return;
-
     setError(null);
     setIsSending(true);
-
     const newMessage = {
       body: messageText,
       channelId: currentChannelId,
       username: currentUserName,
     };
-
     try {
       await axios.post('/api/v1/messages', newMessage, {
         headers: {
@@ -109,9 +125,9 @@ const MainPage = () => {
       });
       setMessageText('');
       setError(null);
+    // eslint-disable-next-line no-unused-vars
     } catch (e) {
       setError('Network issues. Message not sent.');
-      console.log(e);
     } finally {
       setIsSending(false);
     }
@@ -131,6 +147,9 @@ const MainPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     sendMessage();
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   useEffect(() => {
@@ -206,19 +225,19 @@ const MainPage = () => {
     };
   }, [token, navigate, dispatch]);
 
-  useEffect(() => {
-    if (!currentChannelMessages.length) return;
-    if (messagesEndRef.current && typeof window !== 'undefined') {
-      if (isFirstScroll.current) {
-        window.requestAnimationFrame(() => {
-          messagesEndRef.current.scrollIntoView({ behavior: 'auto' });
-          isFirstScroll.current = false;
-        });
-      } else {
-        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [currentChannelMessages]);
+  // useEffect(() => {
+  //   if (!currentChannelMessages.length) return;
+  //   if (messagesEndRef.current && typeof window !== 'undefined') {
+  //     if (isFirstScroll.current) {
+  //       window.requestAnimationFrame(() => {
+  //         messagesEndRef.current.scrollIntoView({ behavior: 'auto' });
+  //         isFirstScroll.current = false;
+  //       });
+  //     } else {
+  //       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  //     }
+  //   }
+  // }, [currentChannelMessages]);
 
   useEffect(() => {
     if (activeChannelRef.current && typeof window !== 'undefined') {
@@ -226,14 +245,14 @@ const MainPage = () => {
     }
   }, [channels]);
 
-  useEffect(() => {
-    setError(null);
-    isFirstScroll.current = true;
-  }, [currentChannelId]);
+  // useEffect(() => {
+  //   setError(null);
+  //   isFirstScroll.current = true;
+  // }, [currentChannelId]);
 
   return (
     <div className="d-flex flex-column h-100 bg-light">
-      {isModalOpen && (
+      {modals.add && (
         <AddChannelModal
           handleAdd={async (name) => {
             try {
@@ -241,22 +260,21 @@ const MainPage = () => {
               const newChannel = await addNewChannel(name);
               dispatch(addChannel(newChannel));
               dispatch(setCurrentChannel(newChannel.id));
-              setIsModalOpen(false);
+              closeModal('add');
             } finally {
               setIsAdding(false);
             }
           }}
           onClose={() => {
-            setIsModalOpen(false);
+            closeModal('add');
           }}
           channels={channels}
-          placeholder="Add channel"
           error={error}
           isSubmitting={isAdding}
         />
       )}
 
-      {isRenameChannelModalOpen && (
+      {modals.rename && (
         <RenameChannelModal
           handleRename={async (name) => {
             try {
@@ -271,7 +289,7 @@ const MainPage = () => {
                 id: response.data.id,
                 changes: { name: response.data.name },
               }));
-              setIsRenameChannelModalOpen(false);
+              closeModal('rename');
               setChannelToRenameId(null);
               return response.data;
             } finally {
@@ -279,7 +297,7 @@ const MainPage = () => {
             }
           }}
           onClose={() => {
-            setIsRenameChannelModalOpen(false);
+            closeModal('rename');
             setChannelToRenameId(null);
             setChannelToRenameName(null);
           }}
@@ -290,16 +308,12 @@ const MainPage = () => {
         />
       )}
 
-      {isRemoveChannelModalOpen && (
-        <Modal
-          title="Remove Channel?"
-          initialValues={{}}
-          validationSchema={null}
-          submitText="Remove"
+      {modals.remove && (
+        <RemoveChannelModal
           isSubmitting={isRemoving}
           error={removeError}
           onClose={() => {
-            setIsRemoveChannelModalOpen(false);
+            closeModal('remove');
             setRemoveError(null);
           }}
           onSubmit={async () => {
@@ -317,7 +331,7 @@ const MainPage = () => {
               dispatch(removeChannel(channelToDeleteId));
               dispatch(removeMessagesByChannel(channelToDeleteId));
               setChannelToDeleteId(null);
-              setIsRemoveChannelModalOpen(false);
+              closeModal('remove');
             } catch (e) {
               console.log(e);
               setRemoveError('Failed to remove channel');
@@ -325,23 +339,13 @@ const MainPage = () => {
               setIsRemoving(false);
             }
           }}
-        >
-          <p className="modal-body p-0">Are U Sure?</p>
-        </Modal>
+        />
       )}
 
-      <div className="navbar bg-white">
-        <div className="container">
-          <span className="navbar-brand">YouChat</span>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <Header>
+        <LogoutButton logout={handleLogout} />
+      </Header>
+
       <div className="container h-100 my-4 rounded shadow bg-white overflow-hidden">
         <div className="row h-100">
           <div className="col-4 d-flex bg-light flex-column border-end h-100 pb-5">
@@ -350,7 +354,7 @@ const MainPage = () => {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => openModal('add')}
               >
                 Add
               </button>
@@ -405,7 +409,7 @@ const MainPage = () => {
                               type="button"
                               onClick={() => {
                                 setChannelToDeleteId(channel.id);
-                                setIsRemoveChannelModalOpen(true);
+                                openModal('remove');
                               }}
                             >
                               Delete
@@ -418,7 +422,7 @@ const MainPage = () => {
                               onClick={() => {
                                 setChannelToRenameName(channel.name);
                                 setChannelToRenameId(channel.id);
-                                setIsRenameChannelModalOpen(true);
+                                openModal('rename');
                               }}
                             >
                               Rename
@@ -443,7 +447,8 @@ const MainPage = () => {
                 &nbsp;messages
               </p>
             </div>
-            <div className="overflow-auto px-5">
+            <MessagesList />
+            {/* <div className="overflow-auto px-5">
               {currentChannelMessages.map((msg, index) => (
                 <div
                   key={msg.id}
@@ -462,7 +467,7 @@ const MainPage = () => {
                   <span>{msg.body}</span>
                 </div>
               ))}
-            </div>
+            </div> */}
             <div className="p-5 mt-auto">
               {!isConnected && (
                 <div className="alert alert-warning py-2">

@@ -2,9 +2,17 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 
+let storedUser = null;
+try {
+  storedUser = JSON.parse(localStorage.getItem('user'));
+// eslint-disable-next-line no-unused-vars
+} catch (e) {
+  storedUser = null;
+}
+
 const initialState = {
   token: localStorage.getItem('token') || null,
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  user: storedUser,
   isLoggedIn: !!localStorage.getItem('token'),
 };
 

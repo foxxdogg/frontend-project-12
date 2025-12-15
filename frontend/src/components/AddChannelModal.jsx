@@ -3,7 +3,7 @@ import { Field } from 'formik';
 import Modal from './Modal';
 
 const AddChannelModal = ({
-  channels, handleAdd, onClose, placeholder, error, isSubmitting,
+  channels, handleAdd, onClose, error, isSubmitting,
 }) => {
   const schema = yup.object({
     name: yup
@@ -29,8 +29,8 @@ const AddChannelModal = ({
       await handleAdd(values.name);
       helpers.resetForm();
       onClose();
+    // eslint-disable-next-line no-unused-vars
     } catch (e) {
-      console.log(e);
       helpers.setFieldError('name', 'Failed to create the channel');
     }
   };
@@ -43,13 +43,13 @@ const AddChannelModal = ({
       submitText="Add"
       onClose={onClose}
       onSubmit={onSubmit}
-      error={error}
       isSubmitting={isSubmitting}
+      error={error}
     >
       <Field
         name="name"
         className="form-control mb-3"
-        placeholder={placeholder}
+        placeholder="Add channel"
         autoFocus
       />
     </Modal>
