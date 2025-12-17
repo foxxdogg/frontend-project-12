@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
@@ -6,22 +5,26 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { login } from '../store/authSlice';
 import Header from '../components/Header';
 import Focus from '../components/Focus';
+import useLogout from '../hooks/useLogout';
 
 const Signup = () => {
+  const { t } = useTranslation();
+  const handleLogout = useLogout();
   const schema = yup.object({
     username: yup
       .string()
-      .min(3, 'Minimum 3 characters')
-      .max(20, 'Maximum 20 characters')
-      .required('Required'),
-    password: yup.string().min(6, 'Minimum 6 characters').required('Required'),
+      .min(3, t('range'))
+      .max(20, t('range'))
+      .required(t('required')),
+    password: yup.string().min(6, t('minLength')).required(t('required')),
     confirmation: yup
       .string()
-      .oneOf([yup.ref('password')], 'Passwords must match')
-      .required('Required'),
+      .oneOf([yup.ref('password')], t('passwordMatch'))
+      .required(t('required')),
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,14 +42,14 @@ const Signup = () => {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
-          setErrors({ username: 'User already exists' }); // ошибка конкретного поля
+          setErrors({ username: t('exists') });
         } else if (error.response.data && error.response.data.message) {
-          setStatus(error.response.data.message); // глобальная ошибка
+          setStatus(t('anyError'));
         } else {
-          setStatus('Server error. Please try again.'); // глобальная ошибка
+          setStatus(t('serverError'));
         }
       } else {
-        setStatus('Network error. Please try again.'); // глобальная ошибка
+        setStatus(t('networkError'));
       }
     } finally {
       setSubmitting(false);
@@ -54,11 +57,11 @@ const Signup = () => {
   };
   return (
     <>
-      <Header />
+      <Header handleLogout={handleLogout} />
       <div className="container-fluid p-5 d-flex justify-content-center align-items-center min-vh-100 bg-light">
-        <div className="card bg-white shadow rounded">
+        <div className="card bg-white shadow rounded col-3">
           <div className="card-body">
-            <h2 className="card-title  text-center">Registration</h2>
+            <h2 className="card-title  text-center">{t('signUp')}</h2>
             <Formik
               initialValues={{ username: '', password: '', confirmation: '' }}
               onSubmit={handleSubmit}
@@ -69,7 +72,7 @@ const Signup = () => {
                   <Focus />
                   {status && <div className="alert alert-danger mb-3">{status}</div>}
                   <div className="form-group mb-3">
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="username">{t('username')}</label>
                     <Field
                       type="text"
                       name="username"
@@ -85,7 +88,7 @@ const Signup = () => {
                     </div>
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">{t('password')}</label>
                     <Field
                       type="password"
                       name="password"
@@ -101,7 +104,7 @@ const Signup = () => {
                     </div>
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor="confirmation">Password Confirmation</label>
+                    <label htmlFor="confirmation">{t('confirmation')}</label>
                     <Field
                       type="password"
                       name="confirmation"
@@ -118,7 +121,7 @@ const Signup = () => {
                   </div>
                   <div className="d-grid mt-4">
                     <button type="submit" className="btn btn-outline-primary">
-                      {isSubmitting ? 'Registering...' : 'Register'}
+                      {isSubmitting ? t('registering') : t('register')}
                     </button>
                   </div>
                 </Form>

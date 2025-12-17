@@ -5,6 +5,7 @@ import {
   Formik, Form, ErrorMessage,
 } from 'formik';
 import { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Modal = ({
   title,
@@ -19,6 +20,7 @@ const Modal = ({
 }) => {
   const isDragging = useRef(false);
   const removeBtnRef = useRef(null);
+  const { t } = useTranslation();
 
   const handleMouseDown = () => {
     isDragging.current = false;
@@ -91,13 +93,13 @@ const Modal = ({
                         onClose();
                       }}
                     >
-                      Cancel
+                      {t('cancel')}
                     </button>
 
                     <button
                       type="submit"
-                      ref={submitText === 'Remove' ? removeBtnRef : null}
-                      className={`btn btn-primary ${submitText === 'Remove' ? 'btn-danger' : 'btn-primary'}`}
+                      ref={submitText === t('delete') ? removeBtnRef : null}
+                      className={`btn btn-primary ${submitText === t('delete') ? 'btn-danger' : 'btn-primary'}`}
                       disabled={isSubmitting}
                     >
                       {submitText}

@@ -1,0 +1,18 @@
+{
+"version": "0.2",
+"language": "en,ru",
+
+"ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "build/**"],
+ "words": [
+    "i18next",
+    "Formik",
+    "Hexlet",
+    "redux",
+    "Yup",
+    "axios",
+    "vite"
+]
+}

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import {
   addChannels,
   channelsSelectors,
@@ -16,18 +17,19 @@ import {
   selectMessagesByChannel,
   removeMessagesByChannel,
 } from '../store/messagesSlice';
-import { logout } from '../store/authSlice';
 import socket from '../socket';
 import AddChannelModal from '../components/AddChannelModal';
 import RenameChannelModal from '../components/RenameChannelModal';
 import RemoveChannelModal from '../components/RemoveChannelModal';
 import Header from '../components/Header';
-import LogoutButton from '../components/LogoutButton.jsx';
 import MessagesList from '../components/MessagesList';
+import useLogout from '../hooks/useLogout';
 
 const MainPage = () => {
+  const { t } = useTranslation();
   const [messageText, setMessageText] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [messageError, setMessageError] = useState(null);
   const [error, setError] = useState(null);
   const [isConnected, setIsConnected] = useState(true);
 
@@ -51,9 +53,7 @@ const MainPage = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [removeError, setRemoveError] = useState(null);
 
-  // const messagesEndRef = useRef(null);
   const activeChannelRef = useRef(null);
-  // const isFirstScroll = useRef(true);
   const inputRef = useRef(null);
 
   const navigate = useNavigate();
@@ -103,14 +103,11 @@ const MainPage = () => {
     }
   }, [currentChannelId]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/login', { replace: true });
-  };
+  const handleLogout = useLogout();
 
   const sendMessage = async () => {
     if (!messageText.trim()) return;
-    setError(null);
+    setMessageError(null);
     setIsSending(true);
     const newMessage = {
       body: messageText,
@@ -124,10 +121,10 @@ const MainPage = () => {
         },
       });
       setMessageText('');
-      setError(null);
+      setMessageError(null);
     // eslint-disable-next-line no-unused-vars
     } catch (e) {
-      setError('Network issues. Message not sent.');
+      setMessageError(t('notSent'));
     } finally {
       setIsSending(false);
     }
@@ -225,30 +222,11 @@ const MainPage = () => {
     };
   }, [token, navigate, dispatch]);
 
-  // useEffect(() => {
-  //   if (!currentChannelMessages.length) return;
-  //   if (messagesEndRef.current && typeof window !== 'undefined') {
-  //     if (isFirstScroll.current) {
-  //       window.requestAnimationFrame(() => {
-  //         messagesEndRef.current.scrollIntoView({ behavior: 'auto' });
-  //         isFirstScroll.current = false;
-  //       });
-  //     } else {
-  //       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  //     }
-  //   }
-  // }, [currentChannelMessages]);
-
   useEffect(() => {
     if (activeChannelRef.current && typeof window !== 'undefined') {
       activeChannelRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [channels]);
-
-  // useEffect(() => {
-  //   setError(null);
-  //   isFirstScroll.current = true;
-  // }, [currentChannelId]);
 
   return (
     <div className="d-flex flex-column h-100 bg-light">
@@ -302,7 +280,7 @@ const MainPage = () => {
             setChannelToRenameName(null);
           }}
           channels={channels}
-          placeholder="Rename channel"
+          placeholder={t('renameChannelPlaceholder')}
           channelName={channelToRenameName}
           isSubmitting={isRenaming}
         />
@@ -334,7 +312,7 @@ const MainPage = () => {
               closeModal('remove');
             } catch (e) {
               console.log(e);
-              setRemoveError('Failed to remove channel');
+              setRemoveError(t('removeChannelFailure'));
             } finally {
               setIsRemoving(false);
             }
@@ -342,21 +320,18 @@ const MainPage = () => {
         />
       )}
 
-      <Header>
-        <LogoutButton logout={handleLogout} />
-      </Header>
-
+      <Header handleLogout={handleLogout} />
       <div className="container h-100 my-4 rounded shadow bg-white overflow-hidden">
         <div className="row h-100">
           <div className="col-4 d-flex bg-light flex-column border-end h-100 pb-5">
             <div className="d-flex align-items-center justify-content-between p-4 mb-4">
-              <b>Channels</b>
+              <b>{t('channels')}</b>
               <button
                 type="button"
                 className="btn btn-primary"
                 onClick={() => openModal('add')}
               >
-                Add
+                {t('add')}
               </button>
             </div>
             <div className="flex-grow-1 d-flex flex-column h-100 overflow-auto">
@@ -400,7 +375,7 @@ const MainPage = () => {
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          <span className="visually-hidden">Channels control</span>
+                          <span className="visually-hidden">{t('channelsControl')}</span>
                         </button>
                         <ul className="dropdown-menu">
                           <li>
@@ -412,7 +387,7 @@ const MainPage = () => {
                                 openModal('remove');
                               }}
                             >
-                              Delete
+                              {t('delete')}
                             </button>
                           </li>
                           <li>
@@ -425,7 +400,7 @@ const MainPage = () => {
                                 openModal('rename');
                               }}
                             >
-                              Rename
+                              {t('rename')}
                             </button>
                           </li>
                         </ul>
@@ -443,39 +418,18 @@ const MainPage = () => {
                 {currentChannelName}
               </b>
               <p className="text-muted m-0">
-                {currentChannelMessages.length}
-                &nbsp;messages
+                {t('messages', { count: currentChannelMessages.length })}
               </p>
             </div>
             <MessagesList />
-            {/* <div className="overflow-auto px-5">
-              {currentChannelMessages.map((msg, index) => (
-                <div
-                  key={msg.id}
-                  className="mb-2 text-break"
-                  ref={
-                    index === currentChannelMessages.length - 1
-                      ? messagesEndRef
-                      : null
-                  }
-                >
-                  <b>
-                    {msg.username}
-                    :
-                    {' '}
-                  </b>
-                  <span>{msg.body}</span>
-                </div>
-              ))}
-            </div> */}
             <div className="p-5 mt-auto">
               {!isConnected && (
                 <div className="alert alert-warning py-2">
-                  No network. Connection lost
+                  {t('connectionError')}
                 </div>
               )}
 
-              {error && <div className="alert alert-danger py-2">{error}</div>}
+              {messageError && <div className="alert alert-danger py-2">{messageError}</div>}
               <form
                 className="d-flex justify-content-between"
                 onSubmit={handleSubmit}
@@ -484,7 +438,7 @@ const MainPage = () => {
                   ref={inputRef}
                   type="text"
                   className="form-control me-3"
-                  placeholder="Enter your message"
+                  placeholder={t('enterMessagePlaceholder')}
                   value={messageText}
                   onChange={(e) => {
                     setMessageText(e.target.value);
@@ -496,7 +450,7 @@ const MainPage = () => {
                   className="btn btn-primary"
                   disabled={!messageText.trim() || isSending || !isConnected}
                 >
-                  {isSending ? 'Sending...' : 'Send'}
+                  {isSending ? t('sending') : t('send')}
                 </button>
               </form>
             </div>

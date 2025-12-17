@@ -1,0 +1,56 @@
+{
+  "login": "Войти",
+  "logout": "Выйти",
+  "submit": "Войти",
+  "submitting": "Вход...",
+  "noAccount": "Нет аккаунта?",
+  "signUp": "Регистрация",
+  "register": "Зарегистрироваться",
+  "registering": "Регистрация...",
+
+  "username": "Имя пользователя",
+  "password": "Пароль",
+  "confirmation": "Подтвердите пароль",
+
+  "required": "Заполните это поле",
+  "exists": "Такой пользователь уже существует",
+  "passwordMatch": "Пароли должны совпадать",
+  "range": "От 3 до 20 символов",
+  "minLength": "Не менее 6 символов",
+
+  "invalidCredentials": "Неверное имя пользователя или пароль",
+  "userOrPasswordError": "Неверные имя пользователя или пароль",
+  "anyError": "Ошибка. Попробуйте позже.",
+  "networkError": "Ошибка сети. Попробуйте позже.",
+  "serverError": "Ошибка сервера. Попробуйте позже.",
+  "connectionError": "Ошибка соединения",
+  "notSent": "Проблемы с сетью. Сообщение не отправлено",
+
+  "notFound": "Страница не найдена",
+  "toMainPage": "Вернуться на главную страницу",
+
+  "send": "Отправить",
+  "sending": "Отправляется",
+  "enterMessagePlaceholder": "Введите свое сообщение",
+  "messages_one": "{{count}} сообщение",
+  "messages_few": "{{count}} сообщения",
+  "messages_many": "{{count}} сообщений",
+  "messages_zero": "{{count}} сообщений",
+
+  "channels": "Каналы",
+  "add": "Добавить",
+  "addChannel": "Добавить канал",
+  "delete": "Удалить",
+  "rename": "Переименовать",
+  "renameChannel": "Переименовать канал",
+  "renameChannelPlaceholder": "Переименовать канал",
+  "removeChannel": "Удалить канал",
+  "sure": "Уверены?",
+  "notUniq": "Канал с таким именем уже существует",
+  "addChannelFailure": "Не удалось создать канал",
+  "removeChannelFailure": "Не удалось удалить канал",
+  "renameChannelFailure": "Не удалось переименовать канал",
+  "channelsControl": "Управление каналом",
+
+  "cancel": "Отменить"
+}

@@ -1,11 +1,13 @@
 import * as yup from 'yup';
 import { Field } from 'formik';
 import { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Modal from './Modal';
 
 const RenameChannelModal = ({
   channels, handleRename, onClose, placeholder, channelName, isSubmitting,
 }) => {
+  const { t } = useTranslation();
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -18,12 +20,12 @@ const RenameChannelModal = ({
   const schema = yup.object({
     name: yup
       .string()
-      .min(3)
-      .max(20)
-      .required()
+      .min(3, t('range'))
+      .max(20, t('range'))
+      .required(t('required'))
       .test(
         'unique',
-        'A channel with this name already exists',
+        t('notUniq'),
 
         (value) => {
           if (!value) return false;
@@ -41,16 +43,16 @@ const RenameChannelModal = ({
       onClose();
     } catch (e) {
       console.log(e);
-      helpers.setFieldError('name', 'Failed to rename the channel');
+      helpers.setFieldError('name', t('renameChannelFailure'));
     }
   };
 
   return (
     <Modal
-      title="Rename Channel"
+      title={t('renameChannel')}
       initialValues={{ name: channelName }}
       validationSchema={schema}
-      submitText="Rename"
+      submitText={t('rename')}
       onClose={onClose}
       onSubmit={onSubmit}
       isSubmitting={isSubmitting}
