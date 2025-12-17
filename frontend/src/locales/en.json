@@ -50,5 +50,9 @@
   "renameChannelFailure": "Failed to rename channel",
   "channelsControl": "Channel control",
 
+  "addChannelSuccess": "Channel created",
+  "renameChannelSuccess": "Channel renamed",
+  "removeChannelSuccess": "Channel deleted",
+
   "cancel": "Cancel"
 }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer, toast } from 'react-toastify';
 import {
   addChannels,
   channelsSelectors,
@@ -27,11 +28,14 @@ import useLogout from '../hooks/useLogout';
 
 const MainPage = () => {
   const { t } = useTranslation();
+
   const [messageText, setMessageText] = useState('');
-  const [isSending, setIsSending] = useState(false);
   const [messageError, setMessageError] = useState(null);
+
   const [error, setError] = useState(null);
+
   const [isConnected, setIsConnected] = useState(true);
+  const [isSending, setIsSending] = useState(false);
 
   const [modals, setModals] = useState({
     add: false,
@@ -124,7 +128,7 @@ const MainPage = () => {
       setMessageError(null);
     // eslint-disable-next-line no-unused-vars
     } catch (e) {
-      setMessageError(t('notSent'));
+      toast.error(t('notSent'));
     } finally {
       setIsSending(false);
     }
@@ -156,9 +160,13 @@ const MainPage = () => {
     };
     const handleDisconnect = () => {
       setIsConnected(false);
-      setError(null);
+      toast.error(t('connectionError'));
+      // setError(null);
     };
-    const handleConnectError = () => setIsConnected(false);
+    const handleConnectError = () => {
+      setIsConnected(false);
+      toast.error(t('connectionError'));
+    };
 
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
@@ -185,8 +193,9 @@ const MainPage = () => {
           },
         });
         dispatch(action(response.data));
+      // eslint-disable-next-line no-unused-vars
       } catch (e) {
-        console.log(e);
+        toast.error(t('serverError'));
       }
     };
 
@@ -220,7 +229,7 @@ const MainPage = () => {
       socket.off('removeChannel', handleRemoveChannel);
       socket.off('renameChannel', handleRenameChannel);
     };
-  }, [token, navigate, dispatch]);
+  }, [token, navigate, dispatch, t]);
 
   useEffect(() => {
     if (activeChannelRef.current && typeof window !== 'undefined') {
@@ -238,6 +247,7 @@ const MainPage = () => {
               const newChannel = await addNewChannel(name);
               dispatch(addChannel(newChannel));
               dispatch(setCurrentChannel(newChannel.id));
+              toast.success(t('addChannelSuccess'));
               closeModal('add');
             } finally {
               setIsAdding(false);
@@ -267,6 +277,7 @@ const MainPage = () => {
                 id: response.data.id,
                 changes: { name: response.data.name },
               }));
+              toast.success(t('renameChannelSuccess'));
               closeModal('rename');
               setChannelToRenameId(null);
               return response.data;
@@ -308,6 +319,7 @@ const MainPage = () => {
               });
               dispatch(removeChannel(channelToDeleteId));
               dispatch(removeMessagesByChannel(channelToDeleteId));
+              toast.success(t('removeChannelSuccess'));
               setChannelToDeleteId(null);
               closeModal('remove');
             } catch (e) {
@@ -457,6 +469,17 @@ const MainPage = () => {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

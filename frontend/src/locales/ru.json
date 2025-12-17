@@ -52,5 +52,9 @@
   "renameChannelFailure": "Не удалось переименовать канал",
   "channelsControl": "Управление каналом",
 
+  "addChannelSuccess": "Канал создан",
+  "renameChannelSuccess": "Канал переименован",
+  "removeChannelSuccess": "Канал удален",
+
   "cancel": "Отменить"
 }
