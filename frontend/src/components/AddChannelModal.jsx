@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import Modal from './Modal';
 
 const AddChannelModal = ({
@@ -19,8 +20,9 @@ const AddChannelModal = ({
 
         (value) => {
           if (!value) return false;
+          const cleanValue = leoProfanity.clean(value).trim().toLowerCase();
           return !channels.some(
-            (c) => c.name.trim().toLowerCase() === value.trim().toLowerCase(),
+            (c) => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
           );
         },
       ),

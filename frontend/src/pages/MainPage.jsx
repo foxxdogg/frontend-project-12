@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
+import leoProfanity from 'leo-profanity';
 import {
   addChannels,
   channelsSelectors,
@@ -25,6 +26,9 @@ import RemoveChannelModal from '../components/RemoveChannelModal';
 import Header from '../components/Header';
 import MessagesList from '../components/MessagesList';
 import useLogout from '../hooks/useLogout';
+
+leoProfanity.loadDictionary('en');
+leoProfanity.loadDictionary('ru');
 
 const MainPage = () => {
   const { t } = useTranslation();
@@ -113,8 +117,9 @@ const MainPage = () => {
     if (!messageText.trim()) return;
     setMessageError(null);
     setIsSending(true);
+    const cleanMessage = leoProfanity.clean(messageText);
     const newMessage = {
-      body: messageText,
+      body: cleanMessage,
       channelId: currentChannelId,
       username: currentUserName,
     };
@@ -177,7 +182,7 @@ const MainPage = () => {
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);
     };
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (!token) {
@@ -244,7 +249,8 @@ const MainPage = () => {
           handleAdd={async (name) => {
             try {
               setIsAdding(true);
-              const newChannel = await addNewChannel(name);
+              const cleanName = leoProfanity.clean(name).trim();
+              const newChannel = await addNewChannel(cleanName);
               dispatch(addChannel(newChannel));
               dispatch(setCurrentChannel(newChannel.id));
               toast.success(t('addChannelSuccess'));
@@ -267,7 +273,8 @@ const MainPage = () => {
           handleRename={async (name) => {
             try {
               setIsRenaming(true);
-              const editedChannel = { name };
+              const cleanName = leoProfanity.clean(name);
+              const editedChannel = { name: cleanName };
               const response = await axios.patch(`/api/v1/channels/${channelToRenameId}`, editedChannel, {
                 headers: {
                   Authorization: `Bearer ${token}`,
