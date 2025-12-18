@@ -26,7 +26,6 @@ import RemoveChannelModal from '../components/RemoveChannelModal';
 import Header from '../components/Header';
 import MessagesList from '../components/MessagesList';
 import useLogout from '../hooks/useLogout';
-import TestRollbarButton from '../components/TestRollbarButton';
 
 leoProfanity.loadDictionary('en');
 leoProfanity.loadDictionary('ru');
@@ -245,7 +244,6 @@ const MainPage = () => {
 
   return (
     <div className="d-flex flex-column h-100 bg-light">
-      <TestRollbarButton />
       {modals.add && (
         <AddChannelModal
           handleAdd={async (name) => {
