@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
-import { useRollbar } from '@rollbar/react';
 import {
   addChannels,
   channelsSelectors,
@@ -32,12 +31,6 @@ leoProfanity.loadDictionary('en');
 leoProfanity.loadDictionary('ru');
 
 const MainPage = () => {
-  const rollbar = useRollbar();
-
-  useEffect(() => {
-    rollbar.error('Production Rollbar test');
-  }, [rollbar]);
-
   const { t } = useTranslation();
 
   const [messageText, setMessageText] = useState('');
