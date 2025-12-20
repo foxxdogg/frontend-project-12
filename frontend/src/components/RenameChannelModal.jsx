@@ -28,11 +28,11 @@ const RenameChannelModal = ({
         'unique',
         t('notUniq'),
 
-        (value) => {
+        value => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
-            (c) => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
+            c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
           )
         },
       ),

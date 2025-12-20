@@ -38,7 +38,7 @@ export default [
     },
     rules: {
       semi: ['error', 'never'],
-      '@stylistic/arrow-parens': ['error', 'always'],
+      'arrow-parens': ['error', 'as-needed'],
       'functional/no-conditional-statements': 'off',
       'functional/no-expression-statements': 'off',
       'functional/immutable-data': 'off',

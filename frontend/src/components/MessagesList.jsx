@@ -8,10 +8,10 @@ const MessagesList = () => {
   // const [error, setError] = useState(null);
   const messagesEndRef = useRef(null)
   const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId,
+    state => state.channels.currentChannelId,
   )
   const currentChannelMessages = useSelector(
-    (state) => selectMessagesByChannel(state, currentChannelId),
+    state => selectMessagesByChannel(state, currentChannelId),
   )
   const isFirstScroll = useRef(true)
 
