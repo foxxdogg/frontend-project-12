@@ -58,9 +58,9 @@ const Login = () => {
               {({ isSubmitting, status }) => (
                 <Form>
                   {status && (
-                  <div className="alert alert-danger mb-3">
-                    {status}
-                  </div>
+                    <div className="alert alert-danger mb-3">
+                      {status}
+                    </div>
                   )}
                   <Focus />
                   <div className="form-group mb-3">

@@ -3,7 +3,7 @@ import authReducer from './authSlice'
 import channelsReducer from './channelsSlice'
 import messagesReducer from './messagesSlice'
 
-const loggerMiddleware = (storeAPI) => (next) => (action) => {
+const loggerMiddleware = storeAPI => next => action => {
   const result = next(action)
   console.groupCollapsed('Redux Action:', action.type)
   console.log('Payload:', action.payload)
@@ -18,5 +18,5 @@ export const store = configureStore({
     channels: channelsReducer,
     messages: messagesReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(loggerMiddleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(loggerMiddleware),
 })

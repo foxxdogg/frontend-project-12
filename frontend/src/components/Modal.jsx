@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/control-has-associated-label */
+ 
+ 
+ 
 import {
   Formik, Form, ErrorMessage,
 } from 'formik'
@@ -30,7 +30,7 @@ const Modal = ({
     isDragging.current = true
   }
 
-  const handleBackgroundMouseUp = (e) => {
+  const handleBackgroundMouseUp = e => {
     if (!isDragging.current && e.target === e.currentTarget) {
       onClose()
     }
@@ -53,7 +53,7 @@ const Modal = ({
     >
       <div
         className="modal-dialog modal-dialog-centered"
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
         <div className="modal-content">
           <div className="modal-header">
@@ -70,12 +70,12 @@ const Modal = ({
               validateOnBlur={false}
               validateOnChange={false}
             >
-              {(formik) => (
+              {formik => (
                 <Form>
                   {children}
                   <div style={{ minHeight: '60px' }}>
                     {error && (
-                    <div className="alert alert-danger py-2">{error}</div>
+                      <div className="alert alert-danger py-2">{error}</div>
                     )}
                     <ErrorMessage
                       name="name"
