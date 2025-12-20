@@ -290,7 +290,6 @@ const MainPage = () => {
           isSubmitting={isRenaming}
         />
       )}
-
       {modals.remove && (
         <RemoveChannelModal
           isSubmitting={isRemoving}
@@ -325,7 +324,6 @@ const MainPage = () => {
           }}
         />
       )}
-
       <Header handleLogout={handleLogout} />
       <div className="container h-100 my-4 rounded shadow bg-white overflow-hidden">
         <div className="row h-100">

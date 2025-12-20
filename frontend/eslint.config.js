@@ -39,6 +39,7 @@ export default [
     rules: {
       semi: ['error', 'never'],
       'arrow-parens': ['error', 'as-needed'],
+      'brace-style': ['error', '1tbs', { allowSingleLine: true }],
       indent: ['error', 2],
       'functional/no-conditional-statements': 'off',
       'functional/no-expression-statements': 'off',
@@ -48,7 +49,6 @@ export default [
       'functional/no-throw-statements': 'off',
       'functional/no-return-void': 'off',
       'import/prefer-default-export': 'off',
-
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
       'react/prop-types': 'off',
