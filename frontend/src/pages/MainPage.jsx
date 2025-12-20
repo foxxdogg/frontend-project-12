@@ -443,6 +443,7 @@ const MainPage = () => {
                   className="form-control me-3"
                   placeholder={t('enterMessagePlaceholder')}
                   value={messageText}
+                  aria-label="Новое сообщение"
                   onChange={(e) => {
                     setMessageText(e.target.value);
                     if (error) setError(null);
