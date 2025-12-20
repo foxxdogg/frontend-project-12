@@ -39,6 +39,7 @@ export default [
     rules: {
       semi: ['error', 'never'],
       'arrow-parens': ['error', 'as-needed'],
+      indent: ['error', 2],
       'functional/no-conditional-statements': 'off',
       'functional/no-expression-statements': 'off',
       'functional/immutable-data': 'off',
