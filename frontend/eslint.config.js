@@ -1,12 +1,22 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import { FlatCompat } from '@eslint/eslintrc'
+import importPlugin from 'eslint-plugin-import'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import globals from 'globals'
 
 const compat = new FlatCompat({ baseDir: process.cwd() })
 
 export default [
   // Игнорируем папки
   { ignores: ['node_modules/', 'dist/', 'build/'] },
+
+  {
+    plugins: {
+      import: importPlugin,
+      'jsx-a11y': jsxA11y,
+    },
+  },
 
   // AirBnB правила
   ...compat.extends('airbnb'),
@@ -22,8 +32,8 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
-        document: 'readonly',
-        window: 'readonly',
+        ...globals.browser,
+        ...globals.node,
       },
     },
     rules: {
