@@ -73,18 +73,18 @@ const MainPage = () => {
   const token = useSelector((state) => state.auth.token)
   const currentUser = useSelector((state) => state.auth.user)
   const currentUserName = useSelector((state) =>
-    state.auth.user ? state.auth.user.username : ''
+    state.auth.user ? state.auth.user.username : '',
   )
   const channels = useSelector(channelsSelectors.selectAll)
   const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId
+    (state) => state.channels.currentChannelId,
   )
   const currentChannel = channels.find(
-    (channel) => channel.id === currentChannelId
+    (channel) => channel.id === currentChannelId,
   )
   const currentChannelName = currentChannel ? currentChannel.name : ''
   const currentChannelMessages = useSelector((state) =>
-    selectMessagesByChannel(state, currentChannelId)
+    selectMessagesByChannel(state, currentChannelId),
   )
   // const messages = useSelector((state) => state.messages.entities);
 
@@ -271,13 +271,13 @@ const MainPage = () => {
                   headers: {
                     Authorization: `Bearer ${token}`,
                   },
-                }
+                },
               )
               dispatch(
                 updateChannel({
                   id: response.data.id,
                   changes: { name: response.data.name },
-                })
+                }),
               )
               toast.success(t('renameChannelSuccess'))
               closeModal('rename')

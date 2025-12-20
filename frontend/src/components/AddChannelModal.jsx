@@ -27,9 +27,9 @@ const AddChannelModal = ({
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
             (c) =>
-              leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue
+              leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
           )
-        }
+        },
       ),
   })
 

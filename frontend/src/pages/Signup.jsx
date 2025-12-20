@@ -28,7 +28,7 @@ const Signup = () => {
   const dispatch = useDispatch()
   const handleSubmit = async (
     values,
-    { setSubmitting, setErrors, setStatus }
+    { setSubmitting, setErrors, setStatus },
   ) => {
     setSubmitting(true)
     try {

@@ -25,11 +25,11 @@ const messagesSlice = createSlice({
 })
 
 export const messagesSelectors = messagesAdapter.getSelectors(
-  (state) => state.messages
+  (state) => state.messages,
 )
 export const selectMessagesByChannel = createSelector(
   [messagesSelectors.selectAll, (_, channelId) => channelId],
-  (messages, channelId) => messages.filter((m) => m.channelId === channelId)
+  (messages, channelId) => messages.filter((m) => m.channelId === channelId),
 )
 
 export const { addMessage, addMessages, removeMessagesByChannel } =

@@ -21,7 +21,7 @@ const Login = () => {
   const dispatch = useDispatch()
   const handleSubmit = async (
     values,
-    { setSubmitting, setErrors, setStatus }
+    { setSubmitting, setErrors, setStatus },
   ) => {
     setStatus(null)
     setSubmitting(true)
