@@ -41,7 +41,7 @@ const AddChannelModal = ({
 
   return (
     <Modal
-      title={t('addChannel')}
+      title={t('channelName')}
       initialValues={{ name: '' }}
       validationSchema={schema}
       submitText={t('send')}
