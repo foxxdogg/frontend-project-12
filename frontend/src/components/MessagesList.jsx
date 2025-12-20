@@ -5,8 +5,8 @@ import { selectMessagesByChannel } from '../store/messagesSlice'
 const MessagesList = () => {
   // const [error, setError] = useState(null);
   const messagesEndRef = useRef(null)
-  const currentChannelId = useSelector(state => state.channels.currentChannelId)
-  const currentChannelMessages = useSelector(state =>
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId)
+  const currentChannelMessages = useSelector((state) =>
     selectMessagesByChannel(state, currentChannelId),
   )
   const isFirstScroll = useRef(true)
@@ -36,9 +36,7 @@ const MessagesList = () => {
         <div
           key={msg.id}
           className="mb-2 text-break"
-          ref={
-            index === currentChannelMessages.length - 1 ? messagesEndRef : null
-          }
+          ref={index === currentChannelMessages.length - 1 ? messagesEndRef : null}
         >
           <b>{msg.username}: </b>
           <span>{msg.body}</span>

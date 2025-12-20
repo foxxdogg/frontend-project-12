@@ -19,10 +19,7 @@ const Login = () => {
   })
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const handleSubmit = async (
-    values,
-    { setSubmitting, setErrors, setStatus },
-  ) => {
+  const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
     setStatus(null)
     setSubmitting(true)
     try {
@@ -57,40 +54,20 @@ const Login = () => {
             >
               {({ isSubmitting, status }) => (
                 <Form>
-                  {status && (
-                    <div className="alert alert-danger mb-3">{status}</div>
-                  )}
+                  {status && <div className="alert alert-danger mb-3">{status}</div>}
                   <Focus />
                   <div className="form-group mb-3">
                     <label htmlFor="username">{t('yourUsername')}</label>
-                    <Field
-                      type="text"
-                      name="username"
-                      className="form-control"
-                      id="username"
-                    />
+                    <Field type="text" name="username" className="form-control" id="username" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
-                      <ErrorMessage
-                        name="username"
-                        component="div"
-                        style={{ color: 'red' }}
-                      />
+                      <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
                     <label htmlFor="password">{t('password')}</label>
-                    <Field
-                      type="password"
-                      name="password"
-                      className="form-control"
-                      id="password"
-                    />
+                    <Field type="password" name="password" className="form-control" id="password" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        style={{ color: 'red' }}
-                      />
+                      <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="d-grid mt-4">

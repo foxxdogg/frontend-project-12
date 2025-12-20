@@ -13,11 +13,7 @@ const Signup = () => {
   const { t } = useTranslation()
   const handleLogout = useLogout()
   const schema = yup.object({
-    username: yup
-      .string()
-      .min(3, t('range'))
-      .max(20, t('range'))
-      .required(t('required')),
+    username: yup.string().min(3, t('range')).max(20, t('range')).required(t('required')),
     password: yup.string().min(6, t('minLength')).required(t('required')),
     confirmation: yup
       .string()
@@ -26,10 +22,7 @@ const Signup = () => {
   })
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const handleSubmit = async (
-    values,
-    { setSubmitting, setErrors, setStatus },
-  ) => {
+  const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
     setSubmitting(true)
     try {
       const response = await axios.post('/api/v1/signup', {
@@ -71,39 +64,19 @@ const Signup = () => {
               {({ isSubmitting, status }) => (
                 <Form>
                   <Focus />
-                  {status && (
-                    <div className="alert alert-danger mb-3">{status}</div>
-                  )}
+                  {status && <div className="alert alert-danger mb-3">{status}</div>}
                   <div className="form-group mb-3">
                     <label htmlFor="username">{t('username')}</label>
-                    <Field
-                      type="text"
-                      name="username"
-                      className="form-control"
-                      id="username"
-                    />
+                    <Field type="text" name="username" className="form-control" id="username" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
-                      <ErrorMessage
-                        name="username"
-                        component="div"
-                        style={{ color: 'red' }}
-                      />
+                      <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
                     <label htmlFor="password">{t('password')}</label>
-                    <Field
-                      type="password"
-                      name="password"
-                      className="form-control"
-                      id="password"
-                    />
+                    <Field type="password" name="password" className="form-control" id="password" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
-                      <ErrorMessage
-                        name="password"
-                        component="div"
-                        style={{ color: 'red' }}
-                      />
+                      <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
@@ -115,11 +88,7 @@ const Signup = () => {
                       id="confirmation"
                     />
                     <div style={{ minHeight: '30px', color: 'red' }}>
-                      <ErrorMessage
-                        name="confirmation"
-                        component="div"
-                        style={{ color: 'red' }}
-                      />
+                      <ErrorMessage name="confirmation" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="d-grid mt-4">
