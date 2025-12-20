@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { ToastContainer, toast } from 'react-toastify';
 import leoProfanity from 'leo-profanity';
+import { io } from 'socket.io-client';
 import {
   addChannels,
   channelsSelectors,
@@ -19,7 +20,6 @@ import {
   selectMessagesByChannel,
   removeMessagesByChannel,
 } from '../store/messagesSlice';
-import socket from '../socket';
 import AddChannelModal from '../components/AddChannelModal';
 import RenameChannelModal from '../components/RenameChannelModal';
 import RemoveChannelModal from '../components/RemoveChannelModal';
@@ -81,16 +81,16 @@ const MainPage = () => {
   const currentChannelMessages = useSelector(
     (state) => selectMessagesByChannel(state, currentChannelId),
   );
-  const messages = useSelector((state) => state.messages.entities);
+  // const messages = useSelector((state) => state.messages.entities);
 
-  useEffect(() => {
-    console.log('Full Redux State Snapshot:');
-    console.log('Token:', token);
-    console.log('User:', currentUser);
-    console.log('Channels:', channels);
-    console.log('Current Channel ID:', currentChannelId);
-    console.log('Messages:', messages);
-  }, [token, currentUser, channels, currentChannelId, messages]);
+  // useEffect(() => {
+  //   console.log('Full Redux State Snapshot:');
+  //   console.log('Token:', token);
+  //   console.log('User:', currentUser);
+  //   console.log('Channels:', channels);
+  //   console.log('Current Channel ID:', currentChannelId);
+  //   console.log('Messages:', messages);
+  // }, [token, currentUser, channels, currentChannelId, messages]);
 
   useEffect(() => {
     if (!currentUser || !token) {
@@ -159,32 +159,6 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    const handleConnect = () => {
-      setIsConnected(true);
-      setError(null);
-    };
-    const handleDisconnect = () => {
-      setIsConnected(false);
-      toast.error(t('connectionError'));
-      // setError(null);
-    };
-    const handleConnectError = () => {
-      setIsConnected(false);
-      toast.error(t('connectionError'));
-    };
-
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
-    socket.on('connect_error', handleConnectError);
-
-    return () => {
-      socket.off('connect', handleConnect);
-      socket.off('disconnect', handleDisconnect);
-      socket.off('connect_error', handleConnectError);
-    };
-  }, [t]);
-
-  useEffect(() => {
     if (!token) {
       navigate('/login', { replace: true });
       return;
@@ -206,35 +180,45 @@ const MainPage = () => {
 
     fetchData('/api/v1/channels', addChannels);
     fetchData('/api/v1/messages', addMessages);
-
-    const handleNewMessage = (payload) => {
-      dispatch(addMessage(payload));
-    };
-
-    const handleNewChannel = (payload) => {
-      dispatch(addChannel(payload));
-    };
-
-    const handleRemoveChannel = (payload) => {
-      dispatch(removeChannel(payload));
-    };
-
-    const handleRenameChannel = (payload) => {
-      dispatch(updateChannel(payload));
-    };
-
-    socket.on('newMessage', handleNewMessage);
-    socket.on('newChannel', handleNewChannel);
-    socket.on('removeChannel', handleRemoveChannel);
-    socket.on('renameChannel', handleRenameChannel);
-    // eslint-disable-next-line consistent-return
-    return () => {
-      socket.off('newMessage', handleNewMessage);
-      socket.off('newChannel', handleNewChannel);
-      socket.off('removeChannel', handleRemoveChannel);
-      socket.off('renameChannel', handleRenameChannel);
-    };
   }, [token, navigate, dispatch, t]);
+
+  useEffect(() => {
+    const socket = io('/');
+
+    socket.on('connect', () => {
+      setIsConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      setIsConnected(false);
+      // toast.error(t('connectionError'));
+    });
+
+    socket.on('connect_error', () => {
+      setIsConnected(false);
+      toast.error(t('connectionError'));
+    });
+
+    socket.on('newMessage', (payload) => {
+      dispatch(addMessage(payload));
+    });
+
+    socket.on('newChannel', (payload) => {
+      dispatch(addChannel(payload));
+    });
+
+    socket.on('removeChannel', (payload) => {
+      dispatch(removeChannel(payload));
+    });
+
+    socket.on('renameChannel', (payload) => {
+      dispatch(updateChannel(payload));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [dispatch, t]);
 
   useEffect(() => {
     if (activeChannelRef.current && typeof window !== 'undefined') {

@@ -64,7 +64,7 @@ const Login = () => {
                   )}
                   <Focus />
                   <div className="form-group mb-3">
-                    <label htmlFor="username">{t('username')}</label>
+                    <label htmlFor="username">{t('yourUsername')}</label>
                     <Field
                       type="text"
                       name="username"

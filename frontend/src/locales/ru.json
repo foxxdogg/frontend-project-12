@@ -9,6 +9,7 @@
   "registering": "Регистрация...",
 
   "username": "Имя пользователя",
+  "yourUsername": "Ваш ник",
   "password": "Пароль",
   "confirmation": "Подтвердите пароль",
 
@@ -38,7 +39,7 @@
   "messages_zero": "{{count}} сообщений",
 
   "channels": "Каналы",
-  "add": "Добавить",
+  "add": "+",
   "addChannel": "Добавить канал",
   "delete": "Удалить",
   "rename": "Переименовать",
@@ -54,7 +55,7 @@
 
   "addChannelSuccess": "Канал создан",
   "renameChannelSuccess": "Канал переименован",
-  "removeChannelSuccess": "Канал удален",
+  "removeChannelSuccess": "Канал удалён",
 
   "cancel": "Отменить"
 }
