@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import LogoutButton from './LogoutButton'
 
 const Header = ({ handleLogout }) => {
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
   return (
     <div className="navbar bg-white">
       <div className="container">

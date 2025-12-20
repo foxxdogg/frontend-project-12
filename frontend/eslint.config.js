@@ -1,25 +1,33 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
+/* eslint-disable import/no-extraneous-dependencies */
+
+import { FlatCompat } from '@eslint/eslintrc'
 import importPlugin from 'eslint-plugin-import'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import globals from 'globals'
+
+const compat = new FlatCompat({ baseDir: process.cwd() })
 
 export default [
+  // Игнорируем папки
+  { ignores: ['node_modules/', 'dist/', 'build/'] },
+
   {
-    ignores: ['node_modules/', 'dist/', 'build/'],
+    plugins: {
+      import: importPlugin,
+      'jsx-a11y': jsxA11y,
+    },
   },
 
-  js.configs.recommended,
+  // AirBnB правила
+  ...compat.extends('airbnb'),
+  // React правила
+  ...compat.extends('plugin:react/recommended'),
+  // React Hooks правила
+  ...compat.extends('plugin:react-hooks/recommended'),
 
+  // Функциональные правила подключаем напрямую
   {
-    files: ['**/*.{js,jsx}'],
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'jsx-a11y': jsxA11y,
-      import: importPlugin,
-    },
+    files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -28,27 +36,26 @@ export default [
         ...globals.node,
       },
     },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
     rules: {
-      // React
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
+      semi: ['error', 'never'],
+      'functional/no-conditional-statements': 'off',
+      'functional/no-expression-statements': 'off',
+      'functional/immutable-data': 'off',
+      'functional/functional-parameters': 'off',
+      'functional/no-try-statements': 'off',
+      'functional/no-throw-statements': 'off',
+      'functional/no-return-void': 'off',
+      'import/prefer-default-export': 'off',
 
-      // Hooks
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-
-      // Import
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
-      'import/no-extraneous-dependencies': 'off',
-
-      // General
+      'react/prop-types': 'off',
       'no-console': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
+      'react/function-component-definition': ['error', { namedComponents: 'arrow-function' }],
+      'testing-library/no-debug': 'off',
+      'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
     },
   },
 ]

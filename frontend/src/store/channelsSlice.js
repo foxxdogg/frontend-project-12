@@ -18,18 +18,17 @@ const channelsSlice = createSlice({
     removeChannel: channelsAdapter.removeOne,
     addChannels: channelsAdapter.addMany,
     setCurrentChannel: (state, action) => {
-       
       state.currentChannelId = action.payload
     },
     updateChannel: channelsAdapter.updateOne,
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(logout, () => initialState)
   },
 })
 
 export const channelsSelectors = channelsAdapter.getSelectors(
-  state => state.channels,
+  (state) => state.channels,
 )
 export const {
   addChannel, addChannels, setCurrentChannel, removeChannel, updateChannel,
