@@ -62,6 +62,7 @@ const RenameChannelModal = ({
       <Field
         name="name"
         className="form-control mb-3"
+        aria-label={t('channelName')}
         placeholder={placeholder}
         innerRef={inputRef}
       />
