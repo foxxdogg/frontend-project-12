@@ -1,17 +1,15 @@
 import { useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  selectMessagesByChannel,
-} from '../store/messagesSlice'
+import { selectMessagesByChannel } from '../store/messagesSlice'
 
 const MessagesList = () => {
   // const [error, setError] = useState(null);
   const messagesEndRef = useRef(null)
   const currentChannelId = useSelector(
-    state => state.channels.currentChannelId,
+    (state) => state.channels.currentChannelId
   )
-  const currentChannelMessages = useSelector(
-    state => selectMessagesByChannel(state, currentChannelId),
+  const currentChannelMessages = useSelector((state) =>
+    selectMessagesByChannel(state, currentChannelId)
   )
   const isFirstScroll = useRef(true)
 
@@ -41,16 +39,10 @@ const MessagesList = () => {
           key={msg.id}
           className="mb-2 text-break"
           ref={
-            index === currentChannelMessages.length - 1
-              ? messagesEndRef
-              : null
+            index === currentChannelMessages.length - 1 ? messagesEndRef : null
           }
         >
-          <b>
-            {msg.username}
-            :
-            {' '}
-          </b>
+          <b>{msg.username}: </b>
           <span>{msg.body}</span>
         </div>
       ))}

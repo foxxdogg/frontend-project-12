@@ -6,7 +6,12 @@ import leoProfanity from 'leo-profanity'
 import Modal from './Modal'
 
 const RenameChannelModal = ({
-  channels, handleRename, onClose, placeholder, channelName, isSubmitting,
+  channels,
+  handleRename,
+  onClose,
+  placeholder,
+  channelName,
+  isSubmitting,
 }) => {
   const { t } = useTranslation()
   const inputRef = useRef(null)
@@ -28,13 +33,14 @@ const RenameChannelModal = ({
         'unique',
         t('notUniq'),
 
-        value => {
+        (value) => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
-            c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
+            (c) =>
+              leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue
           )
-        },
+        }
       ),
   })
 

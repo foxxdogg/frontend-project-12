@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import {
-  Formik, Form, ErrorMessage,
-} from 'formik'
+import { Formik, Form, ErrorMessage } from 'formik'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -30,7 +28,7 @@ const Modal = ({
     isDragging.current = true
   }
 
-  const handleBackgroundMouseUp = e => {
+  const handleBackgroundMouseUp = (e) => {
     if (!isDragging.current && e.target === e.currentTarget) {
       onClose()
     }
@@ -53,7 +51,7 @@ const Modal = ({
     >
       <div
         className="modal-dialog modal-dialog-centered"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-content">
           <div className="modal-header">
@@ -70,7 +68,7 @@ const Modal = ({
               validateOnBlur={false}
               validateOnChange={false}
             >
-              {formik => (
+              {(formik) => (
                 <Form>
                   {children}
                   <div style={{ minHeight: '60px' }}>
@@ -109,7 +107,6 @@ const Modal = ({
               )}
             </Formik>
           </div>
-
         </div>
       </div>
     </div>

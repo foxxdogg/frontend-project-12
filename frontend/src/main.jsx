@@ -11,7 +11,8 @@ import './i18n'
 import App from './App.jsx'
 
 const rollbarConfig = {
-  accessToken: '54f6d3559c64495ca22c3ad9a9eb971eff1a8b6a4b263f57b7868ca76a400172e441e0c8ea63a8bf64dcedd27a00d971',
+  accessToken:
+    '54f6d3559c64495ca22c3ad9a9eb971eff1a8b6a4b263f57b7868ca76a400172e441e0c8ea63a8bf64dcedd27a00d971',
   environment: 'production',
   captureUncaught: true,
   captureUnhandledRejections: true,
@@ -26,5 +27,5 @@ createRoot(document.getElementById('root')).render(
         </Provider>
       </ErrorBoundary>
     </RollbarProvider>
-  </StrictMode>,
+  </StrictMode>
 )

@@ -5,7 +5,11 @@ import leoProfanity from 'leo-profanity'
 import Modal from './Modal'
 
 const AddChannelModal = ({
-  channels, handleAdd, onClose, error, isSubmitting,
+  channels,
+  handleAdd,
+  onClose,
+  error,
+  isSubmitting,
 }) => {
   const { t } = useTranslation()
   const schema = yup.object({
@@ -18,13 +22,14 @@ const AddChannelModal = ({
         'unique',
         t('notUniq'),
 
-        value => {
+        (value) => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
-            c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
+            (c) =>
+              leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue
           )
-        },
+        }
       ),
   })
 
@@ -33,7 +38,7 @@ const AddChannelModal = ({
       await handleAdd(values.name)
       helpers.resetForm()
       onClose()
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       helpers.setFieldError('name', t('addChannelFailure'))
     }

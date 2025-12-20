@@ -1,6 +1,4 @@
-import {
-  Formik, Form, Field, ErrorMessage,
-} from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import * as yup from 'yup'
@@ -28,7 +26,10 @@ const Signup = () => {
   })
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setErrors, setStatus }
+  ) => {
     setSubmitting(true)
     try {
       const response = await axios.post('/api/v1/signup', {
@@ -70,7 +71,9 @@ const Signup = () => {
               {({ isSubmitting, status }) => (
                 <Form>
                   <Focus />
-                  {status && <div className="alert alert-danger mb-3">{status}</div>}
+                  {status && (
+                    <div className="alert alert-danger mb-3">{status}</div>
+                  )}
                   <div className="form-group mb-3">
                     <label htmlFor="username">{t('username')}</label>
                     <Field

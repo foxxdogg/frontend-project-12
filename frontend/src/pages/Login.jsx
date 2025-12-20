@@ -1,7 +1,4 @@
-import {
-  Formik, Form, Field, ErrorMessage,
-
-} from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import * as Yup from 'yup'
@@ -22,7 +19,10 @@ const Login = () => {
   })
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
+  const handleSubmit = async (
+    values,
+    { setSubmitting, setErrors, setStatus }
+  ) => {
     setStatus(null)
     setSubmitting(true)
     try {
@@ -58,9 +58,7 @@ const Login = () => {
               {({ isSubmitting, status }) => (
                 <Form>
                   {status && (
-                    <div className="alert alert-danger mb-3">
-                      {status}
-                    </div>
+                    <div className="alert alert-danger mb-3">{status}</div>
                   )}
                   <Focus />
                   <div className="form-group mb-3">
@@ -96,7 +94,9 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="d-grid mt-4">
-                    <button type="submit" className="btn btn-outline-primary">{isSubmitting ? t('submitting') : t('submit')}</button>
+                    <button type="submit" className="btn btn-outline-primary">
+                      {isSubmitting ? t('submitting') : t('submit')}
+                    </button>
                   </div>
                 </Form>
               )}
