@@ -53,8 +53,8 @@ const AddChannelModal = ({
       <Field
         name="name"
         className="form-control mb-3"
-        aria-label="Имя канала"
-        placeholder={t('addChannel')}
+        aria-label={t('channelName')}
+        placeholder={t('channelName')}
         autoFocus
       />
     </Modal>

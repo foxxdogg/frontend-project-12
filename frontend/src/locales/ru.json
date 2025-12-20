@@ -41,6 +41,7 @@
   "channels": "Каналы",
   "add": "+",
   "addChannel": "Добавить канал",
+  "channelName": "Имя канала",
   "delete": "Удалить",
   "rename": "Переименовать",
   "renameChannel": "Переименовать канал",
