@@ -27,8 +27,11 @@ import Header from '../components/Header';
 import MessagesList from '../components/MessagesList';
 import useLogout from '../hooks/useLogout';
 
-leoProfanity.loadDictionary('en');
-leoProfanity.loadDictionary('ru');
+leoProfanity.clearList();
+
+leoProfanity.add(leoProfanity.getDictionary('ru'));
+leoProfanity.add(leoProfanity.getDictionary('en'));
+leoProfanity.add(['boobs']);
 
 const MainPage = () => {
   const { t } = useTranslation();
