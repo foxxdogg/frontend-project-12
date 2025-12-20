@@ -101,6 +101,7 @@ const MainPage = () => {
     }
   }, [currentUser, token, navigate])
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus()
