@@ -1,13 +1,13 @@
-import * as yup from 'yup';
-import { Field } from 'formik';
-import { useTranslation } from 'react-i18next';
-import leoProfanity from 'leo-profanity';
-import Modal from './Modal';
+import * as yup from 'yup'
+import { Field } from 'formik'
+import { useTranslation } from 'react-i18next'
+import leoProfanity from 'leo-profanity'
+import Modal from './Modal'
 
 const AddChannelModal = ({
   channels, handleAdd, onClose, error, isSubmitting,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const schema = yup.object({
     name: yup
       .string()
@@ -19,25 +19,25 @@ const AddChannelModal = ({
         t('notUniq'),
 
         (value) => {
-          if (!value) return false;
-          const cleanValue = leoProfanity.clean(value).trim().toLowerCase();
+          if (!value) return false
+          const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
             (c) => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
-          );
+          )
         },
       ),
-  });
+  })
 
   const onSubmit = async (values, helpers) => {
     try {
-      await handleAdd(values.name);
-      helpers.resetForm();
-      onClose();
+      await handleAdd(values.name)
+      helpers.resetForm()
+      onClose()
     // eslint-disable-next-line no-unused-vars
     } catch (e) {
-      helpers.setFieldError('name', t('addChannelFailure'));
+      helpers.setFieldError('name', t('addChannelFailure'))
     }
-  };
+  }
 
   return (
     <Modal
@@ -58,7 +58,7 @@ const AddChannelModal = ({
         autoFocus
       />
     </Modal>
-  );
-};
+  )
+}
 
-export default AddChannelModal;
+export default AddChannelModal

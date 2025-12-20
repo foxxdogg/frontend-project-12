@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
-import { FlatCompat } from '@eslint/eslintrc';
+import { FlatCompat } from '@eslint/eslintrc'
 
-const compat = new FlatCompat({ baseDir: process.cwd() });
+const compat = new FlatCompat({ baseDir: process.cwd() })
 
 export default [
   // Игнорируем папки
@@ -27,6 +27,7 @@ export default [
       },
     },
     rules: {
+      semi: ['error', 'never'],
       'functional/no-conditional-statements': 'off',
       'functional/no-expression-statements': 'off',
       'functional/immutable-data': 'off',
@@ -34,6 +35,7 @@ export default [
       'functional/no-try-statements': 'off',
       'functional/no-throw-statements': 'off',
       'functional/no-return-void': 'off',
+      'import/prefer-default-export': 'off',
 
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
@@ -46,4 +48,4 @@ export default [
       'react/jsx-filename-extension': ['warn', { extensions: ['.js', '.jsx'] }],
     },
   },
-];
+]

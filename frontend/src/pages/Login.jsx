@@ -1,48 +1,48 @@
 import {
   Formik, Form, Field, ErrorMessage,
 
-} from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { login } from '../store/authSlice';
+} from 'formik'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { login } from '../store/authSlice'
 
-import Header from '../components/Header';
-import Focus from '../components/Focus';
-import useLogout from '../hooks/useLogout';
+import Header from '../components/Header'
+import Focus from '../components/Focus'
+import useLogout from '../hooks/useLogout'
 
 const Login = () => {
-  const { t } = useTranslation();
-  const handleLogout = useLogout();
+  const { t } = useTranslation()
+  const handleLogout = useLogout()
   const loginSchema = Yup.object({
     username: Yup.string().required(t('required')),
     password: Yup.string().required(t('required')),
-  });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  })
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
-    setStatus(null);
-    setSubmitting(true);
+    setStatus(null)
+    setSubmitting(true)
     try {
-      const response = await axios.post('/api/v1/login', values);
-      const { token } = response.data;
-      const user = { username: values.username };
-      dispatch(login({ token, user }));
-      navigate('/');
+      const response = await axios.post('/api/v1/login', values)
+      const { token } = response.data
+      const user = { username: values.username }
+      dispatch(login({ token, user }))
+      navigate('/')
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setErrors({
           username: t('userOrPasswordError'),
-        });
+        })
       } else {
-        setStatus(t('serverError'));
+        setStatus(t('serverError'))
       }
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
   return (
     <>
       <Header handleLogout={handleLogout} />
@@ -112,7 +112,7 @@ const Login = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

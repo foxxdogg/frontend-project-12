@@ -3,9 +3,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import {
   Formik, Form, ErrorMessage,
-} from 'formik';
-import { useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+} from 'formik'
+import { useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const Modal = ({
   title,
@@ -18,29 +18,29 @@ const Modal = ({
   error,
   children,
 }) => {
-  const isDragging = useRef(false);
-  const removeBtnRef = useRef(null);
-  const { t } = useTranslation();
+  const isDragging = useRef(false)
+  const removeBtnRef = useRef(null)
+  const { t } = useTranslation()
 
   const handleMouseDown = () => {
-    isDragging.current = false;
-  };
+    isDragging.current = false
+  }
 
   const handleMouseMove = () => {
-    isDragging.current = true;
-  };
+    isDragging.current = true
+  }
 
   const handleBackgroundMouseUp = (e) => {
     if (!isDragging.current && e.target === e.currentTarget) {
-      onClose();
+      onClose()
     }
-  };
+  }
 
   useEffect(() => {
     if (submitText === 'Remove' && removeBtnRef.current) {
-      removeBtnRef.current.focus();
+      removeBtnRef.current.focus()
     }
-  }, [submitText]);
+  }, [submitText])
 
   return (
     <div
@@ -89,8 +89,8 @@ const Modal = ({
                       type="button"
                       className="btn btn-secondary"
                       onClick={() => {
-                        formik.resetForm();
-                        onClose();
+                        formik.resetForm()
+                        onClose()
                       }}
                     >
                       {t('cancel')}
@@ -113,6 +113,6 @@ const Modal = ({
         </div>
       </div>
     </div>
-  );
-};
-export default Modal;
+  )
+}
+export default Modal

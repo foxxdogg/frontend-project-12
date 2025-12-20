@@ -1,10 +1,10 @@
 import {
   BrowserRouter, Routes, Route,
-} from 'react-router-dom';
-import NotFound from './pages/NotFound.jsx';
-import Login from './pages/Login.jsx';
-import MainPage from './pages/MainPage.jsx';
-import Signup from './pages/Signup.jsx';
+} from 'react-router-dom'
+import NotFound from './pages/NotFound.jsx'
+import Login from './pages/Login.jsx'
+import MainPage from './pages/MainPage.jsx'
+import Signup from './pages/Signup.jsx'
 
 const App = () => (
   <BrowserRouter>
@@ -15,6 +15,6 @@ const App = () => (
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
-);
+)
 
-export default App;
+export default App

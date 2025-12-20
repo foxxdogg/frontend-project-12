@@ -1,7 +1,7 @@
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 const LogoutButton = ({ logout }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <button
       type="button"
@@ -10,7 +10,7 @@ const LogoutButton = ({ logout }) => {
     >
       {t('logout')}
     </button>
-  );
-};
+  )
+}
 
-export default LogoutButton;
+export default LogoutButton

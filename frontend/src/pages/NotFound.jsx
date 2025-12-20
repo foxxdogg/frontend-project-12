@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import Header from '../components/Header';
-import useLogout from '../hooks/useLogout';
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import Header from '../components/Header'
+import useLogout from '../hooks/useLogout'
 
 const NotFound = () => {
-  const { t } = useTranslation();
-  const handleLogout = useLogout();
+  const { t } = useTranslation()
+  const handleLogout = useLogout()
   return (
     <>
       <Header handleLogout={handleLogout} />
@@ -17,7 +17,7 @@ const NotFound = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound

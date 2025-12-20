@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { useTranslation } from 'react-i18next';
-import { ToastContainer, toast } from 'react-toastify';
-import leoProfanity from 'leo-profanity';
-import { io } from 'socket.io-client';
+import { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import { useTranslation } from 'react-i18next'
+import { ToastContainer, toast } from 'react-toastify'
+import leoProfanity from 'leo-profanity'
+import { io } from 'socket.io-client'
 import {
   addChannels,
   channelsSelectors,
@@ -13,77 +13,77 @@ import {
   addChannel,
   removeChannel,
   updateChannel,
-} from '../store/channelsSlice';
+} from '../store/channelsSlice'
 import {
   addMessages,
   addMessage,
   selectMessagesByChannel,
   removeMessagesByChannel,
-} from '../store/messagesSlice';
-import AddChannelModal from '../components/AddChannelModal';
-import RenameChannelModal from '../components/RenameChannelModal';
-import RemoveChannelModal from '../components/RemoveChannelModal';
-import Header from '../components/Header';
-import MessagesList from '../components/MessagesList';
-import useLogout from '../hooks/useLogout';
+} from '../store/messagesSlice'
+import AddChannelModal from '../components/AddChannelModal'
+import RenameChannelModal from '../components/RenameChannelModal'
+import RemoveChannelModal from '../components/RemoveChannelModal'
+import Header from '../components/Header'
+import MessagesList from '../components/MessagesList'
+import useLogout from '../hooks/useLogout'
 
-leoProfanity.clearList();
+leoProfanity.clearList()
 
-leoProfanity.add(leoProfanity.getDictionary('ru'));
-leoProfanity.add(leoProfanity.getDictionary('en'));
-leoProfanity.add(['boobs']);
+leoProfanity.add(leoProfanity.getDictionary('ru'))
+leoProfanity.add(leoProfanity.getDictionary('en'))
+leoProfanity.add(['boobs'])
 
 const MainPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const [messageText, setMessageText] = useState('');
-  const [messageError, setMessageError] = useState(null);
+  const [messageText, setMessageText] = useState('')
+  const [messageError, setMessageError] = useState(null)
 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null)
 
-  const [isConnected, setIsConnected] = useState(true);
-  const [isSending, setIsSending] = useState(false);
+  const [isConnected, setIsConnected] = useState(true)
+  const [isSending, setIsSending] = useState(false)
 
   const [modals, setModals] = useState({
     add: false,
     rename: false,
     remove: false,
-  });
+  })
   const closeModal = (type) => {
-    setModals((prev) => ({ ...prev, [type]: false }));
-  };
+    setModals((prev) => ({ ...prev, [type]: false }))
+  }
   const openModal = (type) => {
-    setModals((prev) => ({ ...prev, [type]: true }));
-  };
+    setModals((prev) => ({ ...prev, [type]: true }))
+  }
 
-  const [isRemoving, setIsRemoving] = useState(false);
-  const [isRenaming, setIsRenaming] = useState(false);
-  const [channelToDeleteId, setChannelToDeleteId] = useState(null);
-  const [channelToRenameName, setChannelToRenameName] = useState(null);
-  const [channelToRenameId, setChannelToRenameId] = useState(null);
-  const [isAdding, setIsAdding] = useState(false);
-  const [removeError, setRemoveError] = useState(null);
+  const [isRemoving, setIsRemoving] = useState(false)
+  const [isRenaming, setIsRenaming] = useState(false)
+  const [channelToDeleteId, setChannelToDeleteId] = useState(null)
+  const [channelToRenameName, setChannelToRenameName] = useState(null)
+  const [channelToRenameId, setChannelToRenameId] = useState(null)
+  const [isAdding, setIsAdding] = useState(false)
+  const [removeError, setRemoveError] = useState(null)
 
-  const activeChannelRef = useRef(null);
-  const inputRef = useRef(null);
+  const activeChannelRef = useRef(null)
+  const inputRef = useRef(null)
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const token = useSelector((state) => state.auth.token);
-  const currentUser = useSelector((state) => state.auth.user);
-  const currentUserName = useSelector((state) => (state.auth.user ? state.auth.user.username : ''));
-  const channels = useSelector(channelsSelectors.selectAll);
+  const token = useSelector((state) => state.auth.token)
+  const currentUser = useSelector((state) => state.auth.user)
+  const currentUserName = useSelector((state) => (state.auth.user ? state.auth.user.username : ''))
+  const channels = useSelector(channelsSelectors.selectAll)
   const currentChannelId = useSelector(
     (state) => state.channels.currentChannelId,
-  );
+  )
   const currentChannel = channels.find(
     (channel) => channel.id === currentChannelId,
-  );
-  const currentChannelName = currentChannel ? currentChannel.name : '';
+  )
+  const currentChannelName = currentChannel ? currentChannel.name : ''
   const currentChannelMessages = useSelector(
     (state) => selectMessagesByChannel(state, currentChannelId),
-  );
+  )
   // const messages = useSelector((state) => state.messages.entities);
 
   // useEffect(() => {
@@ -97,74 +97,74 @@ const MainPage = () => {
 
   useEffect(() => {
     if (!currentUser || !token) {
-      navigate('/login', { replace: true });
+      navigate('/login', { replace: true })
     }
-  }, [currentUser, token, navigate]);
+  }, [currentUser, token, navigate])
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.classList.add('input-focus');
+      inputRef.current.focus()
+      inputRef.current.classList.add('input-focus')
       const timer = setTimeout(() => {
-        inputRef.current.classList.remove('input-focus');
-      }, 300);
+        inputRef.current.classList.remove('input-focus')
+      }, 300)
 
-      return () => clearTimeout(timer);
+      return () => clearTimeout(timer)
     }
-  }, [currentChannelId]);
+  }, [currentChannelId])
 
-  const handleLogout = useLogout();
+  const handleLogout = useLogout()
 
   const sendMessage = async () => {
-    if (!messageText.trim()) return;
-    setMessageError(null);
-    setIsSending(true);
-    const cleanMessage = leoProfanity.clean(messageText);
+    if (!messageText.trim()) return
+    setMessageError(null)
+    setIsSending(true)
+    const cleanMessage = leoProfanity.clean(messageText)
     const newMessage = {
       body: cleanMessage,
       channelId: currentChannelId,
       username: currentUserName,
-    };
+    }
     try {
       await axios.post('/api/v1/messages', newMessage, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      setMessageText('');
-      setMessageError(null);
+      })
+      setMessageText('')
+      setMessageError(null)
     // eslint-disable-next-line no-unused-vars
     } catch (e) {
-      toast.error(t('notSent'));
+      toast.error(t('notSent'))
     } finally {
-      setIsSending(false);
+      setIsSending(false)
     }
-  };
+  }
 
   const addNewChannel = async (name) => {
-    const newChannel = { name };
+    const newChannel = { name }
     const response = await axios.post('/api/v1/channels', newChannel, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    })
 
-    return response.data;
-  };
+    return response.data
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    sendMessage();
+    e.preventDefault()
+    sendMessage()
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  };
+  }
 
   useEffect(() => {
     if (!token) {
-      navigate('/login', { replace: true });
-      return;
+      navigate('/login', { replace: true })
+      return
     }
 
     const fetchData = async (url, action) => {
@@ -173,61 +173,61 @@ const MainPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-        dispatch(action(response.data));
+        })
+        dispatch(action(response.data))
       // eslint-disable-next-line no-unused-vars
       } catch (e) {
-        toast.error(t('serverError'));
+        toast.error(t('serverError'))
       }
-    };
+    }
 
-    fetchData('/api/v1/channels', addChannels);
-    fetchData('/api/v1/messages', addMessages);
-  }, [token, navigate, dispatch, t]);
+    fetchData('/api/v1/channels', addChannels)
+    fetchData('/api/v1/messages', addMessages)
+  }, [token, navigate, dispatch, t])
 
   useEffect(() => {
-    const socket = io('/');
+    const socket = io('/')
 
     socket.on('connect', () => {
-      setIsConnected(true);
-    });
+      setIsConnected(true)
+    })
 
     socket.on('disconnect', () => {
-      setIsConnected(false);
+      setIsConnected(false)
       // toast.error(t('connectionError'));
-    });
+    })
 
     socket.on('connect_error', () => {
-      setIsConnected(false);
-      toast.error(t('connectionError'));
-    });
+      setIsConnected(false)
+      toast.error(t('connectionError'))
+    })
 
     socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload));
-    });
+      dispatch(addMessage(payload))
+    })
 
     socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload));
-    });
+      dispatch(addChannel(payload))
+    })
 
     socket.on('removeChannel', (payload) => {
-      dispatch(removeChannel(payload));
-    });
+      dispatch(removeChannel(payload))
+    })
 
     socket.on('renameChannel', (payload) => {
-      dispatch(updateChannel(payload));
-    });
+      dispatch(updateChannel(payload))
+    })
 
     return () => {
-      socket.disconnect();
-    };
-  }, [dispatch, t]);
+      socket.disconnect()
+    }
+  }, [dispatch, t])
 
   useEffect(() => {
     if (activeChannelRef.current && typeof window !== 'undefined') {
-      activeChannelRef.current.scrollIntoView({ behavior: 'smooth' });
+      activeChannelRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [channels]);
+  }, [channels])
 
   return (
     <div className="d-flex flex-column h-100 bg-light">
@@ -235,19 +235,19 @@ const MainPage = () => {
         <AddChannelModal
           handleAdd={async (name) => {
             try {
-              setIsAdding(true);
-              const cleanName = leoProfanity.clean(name).trim();
-              const newChannel = await addNewChannel(cleanName);
-              dispatch(addChannel(newChannel));
-              dispatch(setCurrentChannel(newChannel.id));
-              toast.success(t('addChannelSuccess'));
-              closeModal('add');
+              setIsAdding(true)
+              const cleanName = leoProfanity.clean(name).trim()
+              const newChannel = await addNewChannel(cleanName)
+              dispatch(addChannel(newChannel))
+              dispatch(setCurrentChannel(newChannel.id))
+              toast.success(t('addChannelSuccess'))
+              closeModal('add')
             } finally {
-              setIsAdding(false);
+              setIsAdding(false)
             }
           }}
           onClose={() => {
-            closeModal('add');
+            closeModal('add')
           }}
           channels={channels}
           error={error}
@@ -259,30 +259,30 @@ const MainPage = () => {
         <RenameChannelModal
           handleRename={async (name) => {
             try {
-              setIsRenaming(true);
-              const cleanName = leoProfanity.clean(name);
-              const editedChannel = { name: cleanName };
+              setIsRenaming(true)
+              const cleanName = leoProfanity.clean(name)
+              const editedChannel = { name: cleanName }
               const response = await axios.patch(`/api/v1/channels/${channelToRenameId}`, editedChannel, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
-              });
+              })
               dispatch(updateChannel({
                 id: response.data.id,
                 changes: { name: response.data.name },
-              }));
-              toast.success(t('renameChannelSuccess'));
-              closeModal('rename');
-              setChannelToRenameId(null);
-              return response.data;
+              }))
+              toast.success(t('renameChannelSuccess'))
+              closeModal('rename')
+              setChannelToRenameId(null)
+              return response.data
             } finally {
-              setIsRenaming(false);
+              setIsRenaming(false)
             }
           }}
           onClose={() => {
-            closeModal('rename');
-            setChannelToRenameId(null);
-            setChannelToRenameName(null);
+            closeModal('rename')
+            setChannelToRenameId(null)
+            setChannelToRenameName(null)
           }}
           channels={channels}
           placeholder={t('renameChannelPlaceholder')}
@@ -296,31 +296,31 @@ const MainPage = () => {
           isSubmitting={isRemoving}
           error={removeError}
           onClose={() => {
-            closeModal('remove');
-            setRemoveError(null);
+            closeModal('remove')
+            setRemoveError(null)
           }}
           onSubmit={async () => {
             try {
-              setIsRemoving(true);
-              setRemoveError(null);
+              setIsRemoving(true)
+              setRemoveError(null)
               if (currentChannelId === channelToDeleteId) {
-                dispatch(setCurrentChannel('1'));
+                dispatch(setCurrentChannel('1'))
               }
               await axios.delete(`/api/v1/channels/${channelToDeleteId}`, {
                 headers: {
                   Authorization: `Bearer ${token}`,
                 },
-              });
-              dispatch(removeChannel(channelToDeleteId));
-              dispatch(removeMessagesByChannel(channelToDeleteId));
-              toast.success(t('removeChannelSuccess'));
-              setChannelToDeleteId(null);
-              closeModal('remove');
+              })
+              dispatch(removeChannel(channelToDeleteId))
+              dispatch(removeMessagesByChannel(channelToDeleteId))
+              toast.success(t('removeChannelSuccess'))
+              setChannelToDeleteId(null)
+              closeModal('remove')
             } catch (e) {
-              console.log(e);
-              setRemoveError(t('removeChannelFailure'));
+              console.log(e)
+              setRemoveError(t('removeChannelFailure'))
             } finally {
-              setIsRemoving(false);
+              setIsRemoving(false)
             }
           }}
         />
@@ -389,8 +389,8 @@ const MainPage = () => {
                               className="dropdown-item"
                               type="button"
                               onClick={() => {
-                                setChannelToDeleteId(channel.id);
-                                openModal('remove');
+                                setChannelToDeleteId(channel.id)
+                                openModal('remove')
                               }}
                             >
                               {t('delete')}
@@ -401,9 +401,9 @@ const MainPage = () => {
                               className="dropdown-item"
                               type="button"
                               onClick={() => {
-                                setChannelToRenameName(channel.name);
-                                setChannelToRenameId(channel.id);
-                                openModal('rename');
+                                setChannelToRenameName(channel.name)
+                                setChannelToRenameId(channel.id)
+                                openModal('rename')
                               }}
                             >
                               {t('rename')}
@@ -448,8 +448,8 @@ const MainPage = () => {
                   value={messageText}
                   aria-label="Новое сообщение"
                   onChange={(e) => {
-                    setMessageText(e.target.value);
-                    if (error) setError(null);
+                    setMessageText(e.target.value)
+                    if (error) setError(null)
                   }}
                 />
                 <button
@@ -476,7 +476,7 @@ const MainPage = () => {
         pauseOnHover
       />
     </div>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

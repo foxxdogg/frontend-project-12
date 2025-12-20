@@ -1,19 +1,19 @@
 import {
   Formik, Form, Field, ErrorMessage,
-} from 'formik';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { login } from '../store/authSlice';
-import Header from '../components/Header';
-import Focus from '../components/Focus';
-import useLogout from '../hooks/useLogout';
+} from 'formik'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { login } from '../store/authSlice'
+import Header from '../components/Header'
+import Focus from '../components/Focus'
+import useLogout from '../hooks/useLogout'
 
 const Signup = () => {
-  const { t } = useTranslation();
-  const handleLogout = useLogout();
+  const { t } = useTranslation()
+  const handleLogout = useLogout()
   const schema = yup.object({
     username: yup
       .string()
@@ -25,36 +25,36 @@ const Signup = () => {
       .string()
       .oneOf([yup.ref('password')], t('passwordMatch'))
       .required(t('required')),
-  });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  })
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
-    setSubmitting(true);
+    setSubmitting(true)
     try {
       const response = await axios.post('/api/v1/signup', {
         username: values.username,
         password: values.password,
-      });
-      const { token } = response.data;
-      const user = { username: values.username };
-      dispatch(login({ token, user }));
-      navigate('/');
+      })
+      const { token } = response.data
+      const user = { username: values.username }
+      dispatch(login({ token, user }))
+      navigate('/')
     } catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
-          setErrors({ username: t('exists') });
+          setErrors({ username: t('exists') })
         } else if (error.response.data && error.response.data.message) {
-          setStatus(t('anyError'));
+          setStatus(t('anyError'))
         } else {
-          setStatus(t('serverError'));
+          setStatus(t('serverError'))
         }
       } else {
-        setStatus(t('networkError'));
+        setStatus(t('networkError'))
       }
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
   return (
     <>
       <Header handleLogout={handleLogout} />
@@ -131,7 +131,7 @@ const Signup = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

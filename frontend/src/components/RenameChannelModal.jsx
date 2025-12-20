@@ -1,22 +1,22 @@
-import * as yup from 'yup';
-import { Field } from 'formik';
-import { useRef, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import leoProfanity from 'leo-profanity';
-import Modal from './Modal';
+import * as yup from 'yup'
+import { Field } from 'formik'
+import { useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import leoProfanity from 'leo-profanity'
+import Modal from './Modal'
 
 const RenameChannelModal = ({
   channels, handleRename, onClose, placeholder, channelName, isSubmitting,
 }) => {
-  const { t } = useTranslation();
-  const inputRef = useRef(null);
+  const { t } = useTranslation()
+  const inputRef = useRef(null)
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
-      inputRef.current.select();
+      inputRef.current.focus()
+      inputRef.current.select()
     }
-  }, []);
+  }, [])
 
   const schema = yup.object({
     name: yup
@@ -29,25 +29,25 @@ const RenameChannelModal = ({
         t('notUniq'),
 
         (value) => {
-          if (!value) return false;
-          const cleanValue = leoProfanity.clean(value).trim().toLowerCase();
+          if (!value) return false
+          const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
             (c) => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
-          );
+          )
         },
       ),
-  });
+  })
 
   const onSubmit = async (values, helpers) => {
     try {
-      await handleRename(values.name);
-      helpers.resetForm();
-      onClose();
+      await handleRename(values.name)
+      helpers.resetForm()
+      onClose()
     } catch (e) {
-      console.log(e);
-      helpers.setFieldError('name', t('renameChannelFailure'));
+      console.log(e)
+      helpers.setFieldError('name', t('renameChannelFailure'))
     }
-  };
+  }
 
   return (
     <Modal
@@ -67,7 +67,7 @@ const RenameChannelModal = ({
         innerRef={inputRef}
       />
     </Modal>
-  );
-};
+  )
+}
 
-export default RenameChannelModal;
+export default RenameChannelModal

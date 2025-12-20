@@ -1,23 +1,23 @@
-import { useEffect, useRef } from 'react';
-import { useFormikContext } from 'formik';
+import { useEffect, useRef } from 'react'
+import { useFormikContext } from 'formik'
 
 const FocusOnError = () => {
-  const { errors, submitCount, isSubmitting } = useFormikContext();
-  const lastSubmitCount = useRef(0);
+  const { errors, submitCount, isSubmitting } = useFormikContext()
+  const lastSubmitCount = useRef(0)
 
   useEffect(() => {
     if (submitCount > lastSubmitCount.current && !isSubmitting) {
-      lastSubmitCount.current = submitCount;
+      lastSubmitCount.current = submitCount
 
-      const firstErrorField = Object.keys(errors)[0];
-      const el = document.querySelector(`[name="${firstErrorField}"]`);
+      const firstErrorField = Object.keys(errors)[0]
+      const el = document.querySelector(`[name="${firstErrorField}"]`)
       if (el) {
-        el.focus();
+        el.focus()
       }
     }
-  }, [errors, submitCount, isSubmitting]);
+  }, [errors, submitCount, isSubmitting])
 
-  return null;
-};
+  return null
+}
 
-export default FocusOnError;
+export default FocusOnError
