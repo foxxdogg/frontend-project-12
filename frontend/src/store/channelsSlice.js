@@ -20,13 +20,13 @@ const channelsSlice = createSlice({
     },
     updateChannel: channelsAdapter.updateOne,
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addCase(logout, () => initialState)
   },
 })
 
 export const channelsSelectors = channelsAdapter.getSelectors(
-  (state) => state.channels,
+  state => state.channels,
 )
 export const {
   addChannel,
