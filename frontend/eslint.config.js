@@ -131,29 +131,28 @@
 
 /* eslint-env node */
 
+// 
+
 import { FlatCompat } from '@eslint/eslintrc'
 import importPlugin from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import globals from 'globals'
 
 const compat = new FlatCompat({
-  baseDir: process.cwd(),
+  baseDir: new URL('.', import.meta.url).pathname,
 })
 
 export default [
-  // ignore
   {
     ignores: ['node_modules/', 'dist/', 'build/'],
   },
 
-  // Airbnb + React
   ...compat.extends(
     'airbnb',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
   ),
 
-  // Plugins + globals
   {
     plugins: {
       import: importPlugin,
@@ -175,26 +174,12 @@ export default [
       },
     },
   },
-
-  // Node globals for config files
   {
     files: ['eslint.config.js', 'vite.config.js'],
-    languageOptions: {
-      globals: {
-        process: 'readonly',
-      },
-    },
-  },
-
-  // Disable extraneous deps for config files
-  {
-    files: ['vite.config.js', 'eslint.config.js'],
     rules: {
       'import/no-extraneous-dependencies': 'off',
     },
   },
-
-  // Project rules
   {
     rules: {
       semi: ['error', 'never'],
