@@ -1,5 +1,3 @@
-// /* eslint-disable import/no-extraneous-dependencies */
-
 // import { FlatCompat } from '@eslint/eslintrc'
 // import importPlugin from 'eslint-plugin-import'
 // import jsxA11y from 'eslint-plugin-jsx-a11y'
@@ -61,22 +59,103 @@
 //     },
 //   },
 // ]
+// import { FlatCompat } from '@eslint/eslintrc'
+// import importPlugin from 'eslint-plugin-import'
+// import jsxA11y from 'eslint-plugin-jsx-a11y'
+// import globals from 'globals'
+
+// const compat = new FlatCompat({ baseDir: process.cwd() })
+
+// export default [
+//   { ignores: ['node_modules/', 'dist/', 'build/'] },
+
+//   ...compat.extends('airbnb', 'plugin:react/recommended', 'plugin:react-hooks/recommended'),
+
+//     {
+//     plugins: {
+//       import: importPlugin,
+//       'jsx-a11y': jsxA11y,
+//       '@stylistic': stylistic,
+//     },
+
+//     languageOptions: {
+//       ecmaVersion: 'latest',
+//       sourceType: 'module',
+//       globals: {
+//         ...globals.browser,
+//         ...globals.node,
+//       },
+//     },
+
+//   files: ['eslint.config.js'],
+//   languageOptions: {
+//     globals: {
+//       process: 'readonly',
+//     },
+//   },
+
+//     settings: {
+//       react: {
+//         version: 'detect',
+//       },
+//     },
+//   },
+
+//   {
+//     plugins: {
+//       import: importPlugin,
+//     },
+//   },
+
+//   {
+//     files: ['vite.config.js', 'eslint.config.js'],
+//     rules: {
+//       'import/no-extraneous-dependencies': 'off',
+//     },
+//   },
+//   {
+//     rules: {
+//       semi: ['error', 'never'],
+//       'react/prop-types': 'off',
+//       'react/react-in-jsx-scope': 'off',
+//       'import/prefer-default-export': 'off',
+//       'import/extensions': 'off',
+//       'import/no-unresolved': 'off',
+//       'no-console': 'off',
+//       '@stylistic/quote-props': 'off'
+//     },
+//   },
+
+//   ...compat.extends('prettier'),
+// ]
+
 import { FlatCompat } from '@eslint/eslintrc'
 import importPlugin from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
-import stylistic from '@stylistic/eslint-plugin'
 import globals from 'globals'
 
-const compat = new FlatCompat({ baseDir: process.cwd() })
+const compat = new FlatCompat({
+  baseDir: process.cwd(),
+})
 
 export default [
-  { ignores: ['node_modules/', 'dist/', 'build/'] },
+  // ignore
+  {
+    ignores: ['node_modules/', 'dist/', 'build/'],
+  },
 
+  // Airbnb + React
+  ...compat.extends(
+    'airbnb',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ),
+
+  // Plugins + globals
   {
     plugins: {
       import: importPlugin,
       'jsx-a11y': jsxA11y,
-      '@stylistic': stylistic,
     },
 
     languageOptions: {
@@ -95,22 +174,28 @@ export default [
     },
   },
 
-  ...compat.extends('airbnb', 'plugin:react/recommended', 'plugin:react-hooks/recommended'),
+  // Node globals for config files
+  {
+    files: ['eslint.config.js', 'vite.config.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
+    },
+  },
 
+  // Disable extraneous deps for config files
+  {
+    files: ['vite.config.js', 'eslint.config.js'],
+    rules: {
+      'import/no-extraneous-dependencies': 'off',
+    },
+  },
+
+  // Project rules
   {
     rules: {
-      /* 🔥 КЛЮЧЕВОЕ */
-      '@stylistic/arrow-parens': ['error', 'always'],
-      '@stylistic/brace-style': ['error', '1tbs'],
-      '@stylistic/comma-dangle': ['error', 'always-multiline'],
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/operator-linebreak': ['error', 'before'],
-      '@stylistic/multiline-ternary': ['error', 'always-multiline'],
-      '@stylistic/jsx-one-expression-per-line': 'error',
-
       semi: ['error', 'never'],
-
-      /* отключаем лишнее */
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       'import/prefer-default-export': 'off',
