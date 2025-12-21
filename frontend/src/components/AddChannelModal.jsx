@@ -18,11 +18,11 @@ function AddChannelModal({
         'unique',
         t('notUniq'),
 
-        (value) => {
+        value => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(
-            (c) => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
+            c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
           )
         },
       ),
@@ -33,7 +33,6 @@ function AddChannelModal({
       await handleAdd(values.name)
       helpers.resetForm()
       onClose()
-      // eslint-disable-next-line no-unused-vars
     } catch (e) {
       helpers.setFieldError('name', t('addChannelFailure'))
     }

@@ -1,10 +1,8 @@
-/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit'
 
 let storedUser = null
 try {
   storedUser = JSON.parse(localStorage.getItem('user'))
-  // eslint-disable-next-line no-unused-vars
 } catch (e) {
   storedUser = null
 }
@@ -27,7 +25,7 @@ const authSlice = createSlice({
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(user))
     },
-    logout: (state) => {
+    logout: state => {
       state.token = null
       state.user = null
       state.isLoggedIn = false
