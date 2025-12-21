@@ -57,7 +57,9 @@ function Signup() {
       <div className="container-fluid p-5 d-flex justify-content-center align-items-center min-vh-100 bg-light">
         <div className="card bg-white shadow rounded col-3">
           <div className="card-body">
-            <h2 className="card-title  text-center">{t('signUp')}</h2>
+            <h2 className="card-title  text-center">
+              {t('signUp')}
+            </h2>
             <Formik
               initialValues={{ username: '', password: '', confirmation: '' }}
               onSubmit={handleSubmit}
@@ -66,23 +68,33 @@ function Signup() {
               {({ isSubmitting, status }) => (
                 <Form>
                   <Focus />
-                  {status && <div className="alert alert-danger mb-3">{status}</div>}
+                  {status && (
+                    <div className="alert alert-danger mb-3">
+                      {status}
+                    </div>
+                  )}
                   <div className="form-group mb-3">
-                    <label htmlFor="username">{t('username')}</label>
+                    <label htmlFor="username">
+                      {t('username')}
+                    </label>
                     <Field type="text" name="username" className="form-control" id="username" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
                       <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor="password">{t('password')}</label>
+                    <label htmlFor="password">
+                      {t('password')}
+                    </label>
                     <Field type="password" name="password" className="form-control" id="password" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
                       <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor="confirmation">{t('confirmation')}</label>
+                    <label htmlFor="confirmation">
+                      {t('confirmation')}
+                    </label>
                     <Field
                       type="password"
                       name="confirmation"

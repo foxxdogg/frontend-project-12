@@ -49,11 +49,11 @@ function MainPage() {
     rename: false,
     remove: false,
   })
-  const closeModal = type => {
-    setModals(prev => ({ ...prev, [type]: false }))
+  const closeModal = (type) => {
+    setModals((prev) => ({ ...prev, [type]: false }))
   }
-  const openModal = type => {
-    setModals(prev => ({ ...prev, [type]: true }))
+  const openModal = (type) => {
+    setModals((prev) => ({ ...prev, [type]: true }))
   }
 
   const [isRemoving, setIsRemoving] = useState(false)
@@ -70,14 +70,14 @@ function MainPage() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const token = useSelector(state => state.auth.token)
-  const currentUser = useSelector(state => state.auth.user)
-  const currentUserName = useSelector(state => (state.auth.user ? state.auth.user.username : ''))
+  const token = useSelector((state) => state.auth.token)
+  const currentUser = useSelector((state) => state.auth.user)
+  const currentUserName = useSelector((state) => (state.auth.user ? state.auth.user.username : ''))
   const channels = useSelector(channelsSelectors.selectAll)
-  const currentChannelId = useSelector(state => state.channels.currentChannelId)
-  const currentChannel = channels.find(channel => channel.id === currentChannelId)
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId)
+  const currentChannel = channels.find((channel) => channel.id === currentChannelId)
   const currentChannelName = currentChannel ? currentChannel.name : ''
-  const currentChannelMessages = useSelector(state => selectMessagesByChannel(state, currentChannelId))
+  const currentChannelMessages = useSelector((state) => selectMessagesByChannel(state, currentChannelId))
   // const messages = useSelector((state) => state.messages.entities);
 
   // useEffect(() => {
@@ -134,7 +134,7 @@ function MainPage() {
     }
   }
 
-  const addNewChannel = async name => {
+  const addNewChannel = async (name) => {
     const newChannel = { name }
     const response = await axios.post('/api/v1/channels', newChannel, {
       headers: {
@@ -145,7 +145,7 @@ function MainPage() {
     return response.data
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     sendMessage()
     if (inputRef.current) {
@@ -193,19 +193,19 @@ function MainPage() {
       toast.error(t('connectionError'))
     })
 
-    socket.on('newMessage', payload => {
+    socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload))
     })
 
-    socket.on('newChannel', payload => {
+    socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload))
     })
 
-    socket.on('removeChannel', payload => {
+    socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload))
     })
 
-    socket.on('renameChannel', payload => {
+    socket.on('renameChannel', (payload) => {
       dispatch(updateChannel(payload))
     })
 
@@ -224,7 +224,7 @@ function MainPage() {
     <div className="d-flex flex-column h-100 bg-light">
       {modals.add && (
         <AddChannelModal
-          handleAdd={async name => {
+          handleAdd={async (name) => {
             try {
               setIsAdding(true)
               const cleanName = leoProfanity.clean(name).trim()
@@ -248,7 +248,7 @@ function MainPage() {
 
       {modals.rename && (
         <RenameChannelModal
-          handleRename={async name => {
+          handleRename={async (name) => {
             try {
               setIsRenaming(true)
               const cleanName = leoProfanity.clean(name)
@@ -326,14 +326,16 @@ function MainPage() {
         <div className="row h-100">
           <div className="col-4 d-flex bg-light flex-column border-end h-100 pb-5">
             <div className="d-flex align-items-center justify-content-between p-4 mb-4">
-              <b>{t('channels')}</b>
+              <b>
+                {t('channels')}
+              </b>
               <button type="button" className="btn btn-primary" onClick={() => openModal('add')}>
                 {t('add')}
               </button>
             </div>
             <div className="flex-grow-1 d-flex flex-column h-100 overflow-auto">
               <ul className="nav nav-pills flex-column align-items-center ps-4 pe-4 w-100">
-                {channels.map(channel => (
+                {channels.map((channel) => (
                   <li
                     className="nav-item w-100"
                     key={channel.id}
@@ -372,7 +374,9 @@ function MainPage() {
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                           >
-                            <span className="visually-hidden">{t('channelsControl')}</span>
+                            <span className="visually-hidden">
+                              {t('channelsControl')}
+                            </span>
                           </button>
                           <ul className="dropdown-menu">
                             <li>
@@ -421,10 +425,16 @@ function MainPage() {
             <MessagesList />
             <div className="p-5 mt-auto">
               {!isConnected && (
-                <div className="alert alert-warning py-2">{t('connectionError')}</div>
+                <div className="alert alert-warning py-2">
+                  {t('connectionError')}
+                </div>
               )}
 
-              {messageError && <div className="alert alert-danger py-2">{messageError}</div>}
+              {messageError && (
+                <div className="alert alert-danger py-2">
+                  {messageError}
+                </div>
+              )}
               <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
                 <input
                   ref={inputRef}
@@ -433,7 +443,7 @@ function MainPage() {
                   placeholder={t('enterMessagePlaceholder')}
                   value={messageText}
                   aria-label="Новое сообщение"
-                  onChange={e => {
+                  onChange={(e) => {
                     setMessageText(e.target.value)
                     if (error) setError(null)
                   }}

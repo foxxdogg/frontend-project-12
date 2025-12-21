@@ -5,8 +5,8 @@ import { selectMessagesByChannel } from '../store/messagesSlice'
 function MessagesList() {
   // const [error, setError] = useState(null);
   const messagesEndRef = useRef(null)
-  const currentChannelId = useSelector(state => state.channels.currentChannelId)
-  const currentChannelMessages = useSelector(state => selectMessagesByChannel(state, currentChannelId))
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId)
+  const currentChannelMessages = useSelector((state) => selectMessagesByChannel(state, currentChannelId))
   const isFirstScroll = useRef(true)
 
   useEffect(() => {
@@ -41,7 +41,9 @@ function MessagesList() {
             :
             {' '}
           </b>
-          <span>{msg.body}</span>
+          <span>
+            {msg.body}
+          </span>
         </div>
       ))}
     </div>

@@ -48,7 +48,9 @@ function Login() {
       <div className="container-fluid p-5 d-flex justify-content-center align-items-center min-vh-100 bg-light">
         <div className="card bg-white shadow rounded col-3">
           <div className="card-body">
-            <h2 className="card-title  text-center">{t('login')}</h2>
+            <h2 className="card-title  text-center">
+              {t('login')}
+            </h2>
             <Formik
               initialValues={{ username: '', password: '' }}
               onSubmit={handleSubmit}
@@ -56,17 +58,25 @@ function Login() {
             >
               {({ isSubmitting, status }) => (
                 <Form>
-                  {status && <div className="alert alert-danger mb-3">{status}</div>}
+                  {status && (
+                    <div className="alert alert-danger mb-3">
+                      {status}
+                    </div>
+                  )}
                   <Focus />
                   <div className="form-group mb-3">
-                    <label htmlFor="username">{t('yourUsername')}</label>
+                    <label htmlFor="username">
+                      {t('yourUsername')}
+                    </label>
                     <Field type="text" name="username" className="form-control" id="username" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
                       <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor="password">{t('password')}</label>
+                    <label htmlFor="password">
+                      {t('password')}
+                    </label>
                     <Field type="password" name="password" className="form-control" id="password" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
                       <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
@@ -85,7 +95,9 @@ function Login() {
             <p className="m-0 py-2">
               {t('noAccount')}
               &nbsp;
-              <Link to="/signup">{t('signUp')}</Link>
+              <Link to="/signup">
+                {t('signUp')}
+              </Link>
             </p>
           </div>
         </div>

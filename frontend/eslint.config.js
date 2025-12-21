@@ -1,31 +1,21 @@
 import { FlatCompat } from '@eslint/eslintrc'
 import importPlugin from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import stylistic from '@stylistic/eslint-plugin'
 import globals from 'globals'
 
-const compat = new FlatCompat({
-  baseDir: new URL('.', import.meta.url).pathname,
-})
+const compat = new FlatCompat({ baseDir: process.cwd() })
 
 export default [
-  // Игнорируем стандартные папки
-  {
-    ignores: ['node_modules/', 'dist/', 'build/'],
-  },
+  { ignores: ['node_modules/', 'dist/', 'build/'] },
 
-  // Наследуем правила AirBnB, React и React-Hooks
-  ...compat.extends(
-    'airbnb',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-  ),
-
-  // Настройки плагинов
   {
     plugins: {
       import: importPlugin,
       'jsx-a11y': jsxA11y,
+      '@stylistic': stylistic,
     },
+
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -34,6 +24,7 @@ export default [
         ...globals.node,
       },
     },
+
     settings: {
       react: {
         version: 'detect',
@@ -41,32 +32,28 @@ export default [
     },
   },
 
-  // Файлы конфигов
-  {
-    files: ['eslint.config.js', 'vite.config.js'],
-    rules: {
-      'import/no-extraneous-dependencies': 'off',
-    },
-  },
+  ...compat.extends('airbnb', 'plugin:react/recommended', 'plugin:react-hooks/recommended'),
 
-  // Основные правила проекта
   {
     rules: {
+      /* 🔥 КЛЮЧЕВОЕ */
+      '@stylistic/arrow-parens': ['error', 'always'],
+      '@stylistic/brace-style': ['error', '1tbs'],
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/indent': ['error', 2],
+      '@stylistic/operator-linebreak': ['error', 'before'],
+      '@stylistic/multiline-ternary': ['error', 'always-multiline'],
+      '@stylistic/jsx-one-expression-per-line': 'error',
+
       semi: ['error', 'never'],
+
+      /* отключаем лишнее */
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       'import/prefer-default-export': 'off',
       'import/extensions': 'off',
       'import/no-unresolved': 'off',
       'no-console': 'off',
-      'max-len': ['error', { code: 125, ignoreUrls: true }],
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }], // игнорируем переменные, начинающиеся с _
-      'no-param-reassign': [
-        'error',
-        { props: true, ignorePropertyModificationsFor: ['state'] }, // для Redux Toolkit
-      ],
-      'arrow-parens': ['error', 'as-needed'], // не нужны скобки для одного аргумента
-      'brace-style': ['error', '1tbs', { allowSingleLine: true }], // разрешаем закрывающую фигурную в одной строке
     },
   },
 ]
