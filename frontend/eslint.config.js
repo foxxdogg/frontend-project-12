@@ -6,7 +6,6 @@ import globals from 'globals'
 const compat = new FlatCompat({ baseDir: new URL('.', import.meta.url).pathname })
 
 export default [
-  
   {
     ignores: ['node_modules/', 'dist/', 'build/'],
   },

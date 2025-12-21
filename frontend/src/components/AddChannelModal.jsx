@@ -16,7 +16,7 @@ function AddChannelModal({ channels, handleAdd, onClose, error, isSubmitting }) 
         'unique',
         t('notUniq'),
 
-        value => {
+        (value) => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue)
@@ -29,8 +29,10 @@ function AddChannelModal({ channels, handleAdd, onClose, error, isSubmitting }) 
       await handleAdd(values.name)
       helpers.resetForm()
       onClose()
-    } catch (e) {
+    }
+    catch (e) {
       helpers.setFieldError('name', t('addChannelFailure'))
+      console.log(e)
     }
   }
 
