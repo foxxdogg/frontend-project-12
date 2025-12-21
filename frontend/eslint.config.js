@@ -129,6 +129,8 @@
 //   ...compat.extends('prettier'),
 // ]
 
+/* eslint-env node */
+
 import { FlatCompat } from '@eslint/eslintrc'
 import importPlugin from 'eslint-plugin-import'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
