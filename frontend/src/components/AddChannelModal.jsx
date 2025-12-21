@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import leoProfanity from 'leo-profanity'
 import Modal from './Modal'
 
-const AddChannelModal = ({ channels, handleAdd, onClose, error, isSubmitting }) => {
+function AddChannelModal({
+  channels, handleAdd, onClose, error, isSubmitting,
+}) {
   const { t } = useTranslation()
   const schema = yup.object({
     name: yup

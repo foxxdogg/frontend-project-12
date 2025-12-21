@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Header from '../components/Header'
 import useLogout from '../hooks/useLogout'
 
-const NotFound = () => {
+function NotFound() {
   const { t } = useTranslation()
   const handleLogout = useLogout()
   return (

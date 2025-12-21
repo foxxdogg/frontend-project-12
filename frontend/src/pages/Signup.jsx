@@ -1,4 +1,6 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import {
+  Formik, Form, Field, ErrorMessage,
+} from 'formik'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import * as yup from 'yup'
@@ -9,7 +11,7 @@ import Header from '../components/Header'
 import Focus from '../components/Focus'
 import useLogout from '../hooks/useLogout'
 
-const Signup = () => {
+function Signup() {
   const { t } = useTranslation()
   const handleLogout = useLogout()
   const schema = yup.object({

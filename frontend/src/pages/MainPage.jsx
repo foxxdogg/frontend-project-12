@@ -33,7 +33,7 @@ leoProfanity.add(leoProfanity.getDictionary('ru'))
 leoProfanity.add(leoProfanity.getDictionary('en'))
 leoProfanity.add(['boobs'])
 
-const MainPage = () => {
+function MainPage() {
   const { t } = useTranslation()
 
   const [messageText, setMessageText] = useState('')
@@ -77,9 +77,7 @@ const MainPage = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId)
   const currentChannel = channels.find((channel) => channel.id === currentChannelId)
   const currentChannelName = currentChannel ? currentChannel.name : ''
-  const currentChannelMessages = useSelector((state) =>
-    selectMessagesByChannel(state, currentChannelId),
-  )
+  const currentChannelMessages = useSelector((state) => selectMessagesByChannel(state, currentChannelId))
   // const messages = useSelector((state) => state.messages.entities);
 
   // useEffect(() => {

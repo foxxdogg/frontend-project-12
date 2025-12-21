@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next'
 import leoProfanity from 'leo-profanity'
 import Modal from './Modal'
 
-const RenameChannelModal = ({
+function RenameChannelModal({
   channels,
   handleRename,
   onClose,
   placeholder,
   channelName,
   isSubmitting,
-}) => {
+}) {
   const { t } = useTranslation()
   const inputRef = useRef(null)
 

@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import Modal from './Modal'
 
-const RemoveChannelModal = ({ onClose, onSubmit, isSubmitting, error }) => {
+function RemoveChannelModal({
+  onClose, onSubmit, isSubmitting, error,
+}) {
   const { t } = useTranslation()
   return (
     <Modal

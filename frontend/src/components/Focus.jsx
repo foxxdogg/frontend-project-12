@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useFormikContext } from 'formik'
 
-const FocusOnError = () => {
+function FocusOnError() {
   const { errors, submitCount, isSubmitting } = useFormikContext()
   const lastSubmitCount = useRef(0)
 
