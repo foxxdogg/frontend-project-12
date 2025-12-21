@@ -16,9 +16,7 @@ function RemoveChannelModal({
       isSubmitting={isSubmitting}
       error={error}
     >
-      <p className="modal-body p-0">
-        {t('sure')}
-      </p>
+      <p className="modal-body p-0">{t('sure')}</p>
     </Modal>
   )
 }

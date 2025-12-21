@@ -326,9 +326,7 @@ function MainPage() {
         <div className="row h-100">
           <div className="col-4 d-flex bg-light flex-column border-end h-100 pb-5">
             <div className="d-flex align-items-center justify-content-between p-4 mb-4">
-              <b>
-                {t('channels')}
-              </b>
+              <b>{t('channels')}</b>
               <button type="button" className="btn btn-primary" onClick={() => openModal('add')}>
                 {t('add')}
               </button>
@@ -341,8 +339,19 @@ function MainPage() {
                     key={channel.id}
                     ref={currentChannelId === channel.id ? activeChannelRef : null}
                   >
-                    {!channel.removable
-                      ? (
+                    {!channel.removable ? (
+                      <button
+                        type="button"
+                        className={`btn w-100 rounded-0 text-start no-hover ${
+                          channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
+                        }`}
+                        onClick={() => dispatch(setCurrentChannel(channel.id))}
+                      >
+                        #&nbsp;
+                        {channel.name}
+                      </button>
+                    ) : (
+                      <div className="btn-group d-flex dropdown">
                         <button
                           type="button"
                           className={`btn w-100 rounded-0 text-start no-hover ${
@@ -353,60 +362,45 @@ function MainPage() {
                           #&nbsp;
                           {channel.name}
                         </button>
-                      )
-                      : (
-                        <div className="btn-group d-flex dropdown">
-                          <button
-                            type="button"
-                            className={`btn w-100 rounded-0 text-start no-hover ${
-                              channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
-                            }`}
-                            onClick={() => dispatch(setCurrentChannel(channel.id))}
-                          >
-                            #&nbsp;
-                            {channel.name}
-                          </button>
-                          <button
-                            type="button"
-                            className={`btn rounded-0 text-start flex-grow-0 dropdown-toggle dropdown-toggle-split no-hover ${
-                              channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
-                            }`}
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <span className="visually-hidden">
-                              {t('channelsControl')}
-                            </span>
-                          </button>
-                          <ul className="dropdown-menu">
-                            <li>
-                              <button
-                                className="dropdown-item"
-                                type="button"
-                                onClick={() => {
-                                  setChannelToDeleteId(channel.id)
-                                  openModal('remove')
-                                }}
-                              >
-                                {t('delete')}
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                className="dropdown-item"
-                                type="button"
-                                onClick={() => {
-                                  setChannelToRenameName(channel.name)
-                                  setChannelToRenameId(channel.id)
-                                  openModal('rename')
-                                }}
-                              >
-                                {t('rename')}
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      )}
+                        <button
+                          type="button"
+                          className={`btn rounded-0 text-start flex-grow-0 dropdown-toggle dropdown-toggle-split no-hover ${
+                            channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
+                          }`}
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <span className="visually-hidden">{t('channelsControl')}</span>
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li>
+                            <button
+                              className="dropdown-item"
+                              type="button"
+                              onClick={() => {
+                                setChannelToDeleteId(channel.id)
+                                openModal('remove')
+                              }}
+                            >
+                              {t('delete')}
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              className="dropdown-item"
+                              type="button"
+                              onClick={() => {
+                                setChannelToRenameName(channel.name)
+                                setChannelToRenameId(channel.id)
+                                openModal('rename')
+                              }}
+                            >
+                              {t('rename')}
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -425,16 +419,10 @@ function MainPage() {
             <MessagesList />
             <div className="p-5 mt-auto">
               {!isConnected && (
-                <div className="alert alert-warning py-2">
-                  {t('connectionError')}
-                </div>
+                <div className="alert alert-warning py-2">{t('connectionError')}</div>
               )}
 
-              {messageError && (
-                <div className="alert alert-danger py-2">
-                  {messageError}
-                </div>
-              )}
+              {messageError && <div className="alert alert-danger py-2">{messageError}</div>}
               <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
                 <input
                   ref={inputRef}

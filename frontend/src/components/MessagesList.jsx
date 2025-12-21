@@ -41,9 +41,7 @@ function MessagesList() {
             :
             {' '}
           </b>
-          <span>
-            {msg.body}
-          </span>
+          <span>{msg.body}</span>
         </div>
       ))}
     </div>
