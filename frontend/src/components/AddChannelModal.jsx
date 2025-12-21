@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next'
 import leoProfanity from 'leo-profanity'
 import Modal from './Modal'
 
-function AddChannelModal({
-  channels, handleAdd, onClose, error, isSubmitting,
-}) {
+function AddChannelModal({ channels, handleAdd, onClose, error, isSubmitting }) {
   const { t } = useTranslation()
   const schema = yup.object({
     name: yup
@@ -18,12 +16,10 @@ function AddChannelModal({
         'unique',
         t('notUniq'),
 
-        (value) => {
+        value => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
-          return !channels.some(
-            (c) => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue,
-          )
+          return !channels.some(c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue)
         },
       ),
   })

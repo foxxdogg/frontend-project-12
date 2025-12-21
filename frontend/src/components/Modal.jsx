@@ -27,7 +27,7 @@ function Modal({
     isDragging.current = true
   }
 
-  const handleBackgroundMouseUp = (e) => {
+  const handleBackgroundMouseUp = e => {
     if (!isDragging.current && e.target === e.currentTarget) {
       onClose()
     }
@@ -48,7 +48,7 @@ function Modal({
       onMouseMove={handleMouseMove}
       onMouseUp={handleBackgroundMouseUp}
     >
-      <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-dialog modal-dialog-centered" onClick={e => e.stopPropagation()}>
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">{title}</h5>
@@ -64,7 +64,7 @@ function Modal({
               validateOnBlur={false}
               validateOnChange={false}
             >
-              {(formik) => (
+              {formik => (
                 <Form>
                   {children}
                   <div style={{ minHeight: '60px' }}>
