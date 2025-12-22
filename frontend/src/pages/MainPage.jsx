@@ -353,70 +353,70 @@ function MainPage() {
                       : null}
                   >
                     {!channel.removable
-                    ? (
-                      <button
-                        type="button"
-                        className={`btn w-100 rounded-0 text-start no-hover ${
-                          channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
-                        }`}
-                        onClick={() => dispatch(setCurrentChannel(channel.id))}
-                      >
-                        #&nbsp;
-                        {channel.name}
-                      </button>
-                    )
-                    : (
-                      <div className="btn-group d-flex dropdown">
-                        <button
-                          type="button"
-                          className={`btn w-100 rounded-0 text-start no-hover ${
-                            channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
-                          }`}
-                          onClick={() => dispatch(setCurrentChannel(channel.id))}
-                        >
-                          #&nbsp;
-                          {channel.name}
-                        </button>
-                        <button
-                          type="button"
-                          className={`btn rounded-0 text-start flex-grow-0 dropdown-toggle dropdown-toggle-split no-hover ${
-                            channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
-                          }`}
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span className="visually-hidden">{t('channelsControl')}</span>
-                        </button>
-                        <ul className="dropdown-menu">
-                          <li>
+                      ? (
+                          <button
+                            type="button"
+                            className={`btn w-100 rounded-0 text-start no-hover ${
+                              channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
+                            }`}
+                            onClick={() => dispatch(setCurrentChannel(channel.id))}
+                          >
+                            #&nbsp;
+                            {channel.name}
+                          </button>
+                        )
+                      : (
+                          <div className="btn-group d-flex dropdown">
                             <button
-                              className="dropdown-item"
                               type="button"
-                              onClick={() => {
-                                setChannelToDeleteId(channel.id)
-                                openModal('remove')
-                              }}
+                              className={`btn w-100 rounded-0 text-start no-hover ${
+                                channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
+                              }`}
+                              onClick={() => dispatch(setCurrentChannel(channel.id))}
                             >
-                              {t('delete')}
+                              #&nbsp;
+                              {channel.name}
                             </button>
-                          </li>
-                          <li>
                             <button
-                              className="dropdown-item"
                               type="button"
-                              onClick={() => {
-                                setChannelToRenameName(channel.name)
-                                setChannelToRenameId(channel.id)
-                                openModal('rename')
-                              }}
+                              className={`btn rounded-0 text-start flex-grow-0 dropdown-toggle dropdown-toggle-split no-hover ${
+                                channel.id === currentChannelId ? 'btn-secondary' : 'btn-light'
+                              }`}
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
                             >
-                              {t('rename')}
+                              <span className="visually-hidden">{t('channelsControl')}</span>
                             </button>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-                  </li>
+                            <ul className="dropdown-menu">
+                              <li>
+                                <button
+                                  className="dropdown-item"
+                                  type="button"
+                                  onClick={() => {
+                                    setChannelToDeleteId(channel.id)
+                                    openModal('remove')
+                                  }}
+                                >
+                                  {t('delete')}
+                                </button>
+                              </li>
+                              <li>
+                                <button
+                                  className="dropdown-item"
+                                  type="button"
+                                  onClick={() => {
+                                    setChannelToRenameName(channel.name)
+                                    setChannelToRenameId(channel.id)
+                                    openModal('rename')
+                                  }}
+                                >
+                                  {t('rename')}
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </li>
                 ))}
               </ul>
             </div>
