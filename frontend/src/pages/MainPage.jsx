@@ -49,10 +49,10 @@ function MainPage() {
     rename: false,
     remove: false,
   })
-  const closeModal = type => {
+  const closeModal = (type) => {
     setModals(prev => ({ ...prev, [type]: false }))
   }
-  const openModal = type => {
+  const openModal = (type) => {
     setModals(prev => ({ ...prev, [type]: true }))
   }
 
@@ -129,14 +129,17 @@ function MainPage() {
       })
       setMessageText('')
       setMessageError(null)
-    } catch (e) {
+    }
+    catch (e) {
       toast.error(t('notSent'))
-    } finally {
+      console.log(e)
+    }
+    finally {
       setIsSending(false)
     }
   }
 
-  const addNewChannel = async name => {
+  const addNewChannel = async (name) => {
     const newChannel = { name }
     const response = await axios.post('/api/v1/channels', newChannel, {
       headers: {
@@ -147,7 +150,7 @@ function MainPage() {
     return response.data
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     sendMessage()
     if (inputRef.current) {
@@ -169,7 +172,8 @@ function MainPage() {
           },
         })
         dispatch(action(response.data))
-      } catch (e) {
+      }
+      catch (e) {
         toast.error(t('serverError'))
       }
     }
@@ -195,19 +199,19 @@ function MainPage() {
       toast.error(t('connectionError'))
     })
 
-    socket.on('newMessage', payload => {
+    socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload))
     })
 
-    socket.on('newChannel', payload => {
+    socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload))
     })
 
-    socket.on('removeChannel', payload => {
+    socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload))
     })
 
-    socket.on('renameChannel', payload => {
+    socket.on('renameChannel', (payload) => {
       dispatch(updateChannel(payload))
     })
 
@@ -226,7 +230,7 @@ function MainPage() {
     <div className="d-flex flex-column h-100 bg-light">
       {modals.add && (
         <AddChannelModal
-          handleAdd={async name => {
+          handleAdd={async (name) => {
             try {
               setIsAdding(true)
               const cleanName = leoProfanity.clean(name).trim()
@@ -235,7 +239,8 @@ function MainPage() {
               dispatch(setCurrentChannel(newChannel.id))
               toast.success(t('addChannelSuccess'))
               closeModal('add')
-            } finally {
+            }
+            finally {
               setIsAdding(false)
             }
           }}
