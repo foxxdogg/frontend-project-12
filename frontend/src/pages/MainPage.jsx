@@ -175,6 +175,7 @@ function MainPage() {
       }
       catch (e) {
         toast.error(t('serverError'))
+        console.log(e)
       }
     }
 
@@ -255,7 +256,7 @@ function MainPage() {
 
       {modals.rename && (
         <RenameChannelModal
-          handleRename={async name => {
+          handleRename={async (name) => {
             try {
               setIsRenaming(true)
               const cleanName = leoProfanity.clean(name)
@@ -279,7 +280,8 @@ function MainPage() {
               closeModal('rename')
               setChannelToRenameId(null)
               return response.data
-            } finally {
+            }
+            finally {
               setIsRenaming(false)
             }
           }}
@@ -319,10 +321,12 @@ function MainPage() {
               toast.success(t('removeChannelSuccess'))
               setChannelToDeleteId(null)
               closeModal('remove')
-            } catch (e) {
+            }
+            catch (e) {
               console.log(e)
               setRemoveError(t('removeChannelFailure'))
-            } finally {
+            }
+            finally {
               setIsRemoving(false)
             }
           }}
@@ -344,7 +348,9 @@ function MainPage() {
                   <li
                     className="nav-item w-100"
                     key={channel.id}
-                    ref={currentChannelId === channel.id ? activeChannelRef : null}
+                    ref={currentChannelId === channel.id
+                      ? activeChannelRef
+                      : null}
                   >
                     {!channel.removable ? (
                       <button
@@ -438,7 +444,7 @@ function MainPage() {
                   placeholder={t('enterMessagePlaceholder')}
                   value={messageText}
                   aria-label="Новое сообщение"
-                  onChange={e => {
+                  onChange={(e) => {
                     setMessageText(e.target.value)
                     if (error) setError(null)
                   }}
