@@ -80,7 +80,6 @@ function MainPage() {
   const currentChannelMessages = useSelector(state =>
     selectMessagesByChannel(state, currentChannelId),
   )
-  // const messages = useSelector((state) => state.messages.entities);
 
   // useEffect(() => {
   //   console.log('Full Redux State Snapshot:');
@@ -192,7 +191,6 @@ function MainPage() {
 
     socket.on('disconnect', () => {
       setIsConnected(false)
-      // toast.error(t('connectionError'));
     })
 
     socket.on('connect_error', () => {

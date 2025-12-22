@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { selectMessagesByChannel } from '../store/messagesSlice'
 
 function MessagesList() {
-  // const [error, setError] = useState(null);
   const messagesEndRef = useRef(null)
   const currentChannelId = useSelector(state => state.channels.currentChannelId)
   const currentChannelMessages = useSelector(state =>
@@ -12,7 +11,6 @@ function MessagesList() {
   const isFirstScroll = useRef(true)
 
   useEffect(() => {
-    // setError(null);
     isFirstScroll.current = true
   }, [currentChannelId])
 
