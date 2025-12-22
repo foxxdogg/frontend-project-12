@@ -416,7 +416,7 @@ function MainPage() {
                             </ul>
                           </div>
                         )}
-                      </li>
+                  </li>
                 ))}
               </ul>
             </div>
