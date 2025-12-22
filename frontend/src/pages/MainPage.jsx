@@ -352,7 +352,8 @@ function MainPage() {
                       ? activeChannelRef
                       : null}
                   >
-                    {!channel.removable ? (
+                    {!channel.removable
+                    ? (
                       <button
                         type="button"
                         className={`btn w-100 rounded-0 text-start no-hover ${
@@ -363,7 +364,8 @@ function MainPage() {
                         #&nbsp;
                         {channel.name}
                       </button>
-                    ) : (
+                    )
+                    : (
                       <div className="btn-group d-flex dropdown">
                         <button
                           type="button"
