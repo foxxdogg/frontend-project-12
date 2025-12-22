@@ -4,8 +4,9 @@ let storedUser = null
 try {
   storedUser = JSON.parse(localStorage.getItem('user'))
 }
-catch (_e) {
+catch (e) {
   storedUser = null
+  console.log(e)
 }
 
 const initialState = {

@@ -49,7 +49,8 @@ function Signup() {
       else {
         setStatus(t('networkError'))
       }
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
   }
