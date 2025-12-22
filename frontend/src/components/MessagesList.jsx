@@ -41,7 +41,7 @@ function MessagesList() {
         >
           <b>
             {msg.username}
-            : 
+            :&nbsp;
           </b>
           <span>{msg.body}</span>
         </div>

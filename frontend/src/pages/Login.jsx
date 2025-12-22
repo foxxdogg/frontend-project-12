@@ -28,15 +28,18 @@ function Login() {
       const user = { username: values.username }
       dispatch(login({ token, user }))
       navigate('/')
-    } catch (error) {
+    }
+    catch (error) {
       if (error.response && error.response.status === 401) {
         setErrors({
           username: t('userOrPasswordError'),
         })
-      } else {
+      }
+      else {
         setStatus(t('serverError'))
       }
-    } finally {
+    }
+    finally {
       setSubmitting(false)
     }
   }

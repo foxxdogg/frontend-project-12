@@ -33,16 +33,20 @@ function Signup() {
       const user = { username: values.username }
       dispatch(login({ token, user }))
       navigate('/')
-    } catch (error) {
+    }
+    catch (error) {
       if (error.response) {
         if (error.response.status === 409) {
           setErrors({ username: t('exists') })
-        } else if (error.response.data && error.response.data.message) {
+        }
+        else if (error.response.data && error.response.data.message) {
           setStatus(t('anyError'))
-        } else {
+        }
+        else {
           setStatus(t('serverError'))
         }
-      } else {
+      }
+      else {
         setStatus(t('networkError'))
       }
     } finally {

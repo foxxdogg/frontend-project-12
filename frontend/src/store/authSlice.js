@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 let storedUser = null
 try {
   storedUser = JSON.parse(localStorage.getItem('user'))
-} catch (e) {
+}
+catch (_e) {
   storedUser = null
 }
 
