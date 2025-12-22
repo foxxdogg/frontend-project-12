@@ -33,7 +33,7 @@ function RenameChannelModal({
         'unique',
         t('notUniq'),
 
-        value => {
+        (value) => {
           if (!value) return false
           const cleanValue = leoProfanity.clean(value).trim().toLowerCase()
           return !channels.some(c => leoProfanity.clean(c.name).trim().toLowerCase() === cleanValue)
@@ -46,7 +46,8 @@ function RenameChannelModal({
       await handleRename(values.name)
       helpers.resetForm()
       onClose()
-    } catch (e) {
+    }
+    catch (e) {
       console.log(e)
       helpers.setFieldError('name', t('renameChannelFailure'))
     }

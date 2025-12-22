@@ -1,5 +1,5 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
+// /* eslint-disable jsx-a11y/click-events-have-key-events */
+// /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Formik, Form, ErrorMessage } from 'formik'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -27,7 +27,7 @@ function Modal({
     isDragging.current = true
   }
 
-  const handleBackgroundMouseUp = e => {
+  const handleBackgroundMouseUp = (e) => {
     if (!isDragging.current && e.target === e.currentTarget) {
       onClose()
     }

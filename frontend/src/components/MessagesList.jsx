@@ -24,7 +24,8 @@ function MessagesList() {
           messagesEndRef.current.scrollIntoView({ behavior: 'auto' })
           isFirstScroll.current = false
         })
-      } else {
+      }
+      else {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
       }
     }
@@ -38,7 +39,10 @@ function MessagesList() {
           className="mb-2 text-break"
           ref={index === currentChannelMessages.length - 1 ? messagesEndRef : null}
         >
-          <b>{msg.username}: </b>
+          <b>
+            {msg.username}
+            : 
+          </b>
           <span>{msg.body}</span>
         </div>
       ))}
