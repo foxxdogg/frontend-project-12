@@ -1,4 +1,3 @@
-import * as yup from 'yup'
 import { Field } from 'formik'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'

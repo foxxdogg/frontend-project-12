@@ -1,12 +1,12 @@
 import * as Yup from 'yup'
 import leoProfanity from 'leo-profanity'
 
-const getLoginSchema = (t) => Yup.object({
+const getLoginSchema = t => Yup.object({
   username: Yup.string().required(t('required')),
   password: Yup.string().required(t('required')),
 })
 
-const getSignupSchema = (t) => Yup.object({
+const getSignupSchema = t => Yup.object({
   username: Yup.string().min(3, t('range')).max(20, t('range')).required(t('required')),
   password: Yup.string().min(6, t('minLength')).required(t('required')),
   confirmation: Yup

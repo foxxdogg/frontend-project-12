@@ -1,4 +1,3 @@
-import * as yup from 'yup'
 import { Field } from 'formik'
 import { useTranslation } from 'react-i18next'
 import { getSchema } from '../validationSchemas'
