@@ -145,6 +145,78 @@ function MainPage() {
     }
   }
 
+  const handleAdd = async (name) => {
+            try {
+              setIsAdding(true)
+              const cleanName = leoProfanity.clean(name).trim()
+              const newChannel = await addNewChannel(cleanName)
+              dispatch(addChannel(newChannel))
+              dispatch(setCurrentChannel(newChannel.id))
+              toast.success(t('addChannelSuccess'))
+              closeModal('add')
+            }
+            finally {
+              setIsAdding(false)
+            }
+          }
+
+  const handleRename = async (name) => {
+            try {
+              setIsRenaming(true)
+              const cleanName = leoProfanity.clean(name)
+              const editedChannel = { name: cleanName }
+              const response = await axios.patch(
+                `/api/v1/channels/${channelToRenameId}`,
+                editedChannel,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                },
+              )
+              dispatch(
+                updateChannel({
+                  id: response.data.id,
+                  changes: { name: response.data.name },
+                }),
+              )
+              toast.success(t('renameChannelSuccess'))
+              closeModal('rename')
+              setChannelToRenameId(null)
+              return response.data
+            }
+            finally {
+              setIsRenaming(false)
+            }
+          }
+
+  const handleRemove = async () => {
+            try {
+              setIsRemoving(true)
+              setRemoveError(null)
+              if (currentChannelId === channelToDeleteId) {
+                dispatch(setCurrentChannel('1'))
+              }
+              await axios.delete(`/api/v1/channels/${channelToDeleteId}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              })
+              dispatch(removeChannel(channelToDeleteId))
+              dispatch(removeMessagesByChannel(channelToDeleteId))
+              toast.success(t('removeChannelSuccess'))
+              setChannelToDeleteId(null)
+              closeModal('remove')
+            }
+            catch (e) {
+              console.log(e)
+              setRemoveError(t('removeChannelFailure'))
+            }
+            finally {
+              setIsRemoving(false)
+            }
+          }
+
   useEffect(() => {
     if (!token) {
       navigate('/login', { replace: true })
@@ -209,20 +281,7 @@ function MainPage() {
     <div className="d-flex flex-column h-100 bg-light">
       {modals.add && (
         <AddChannelModal
-          handleAdd={async (name) => {
-            try {
-              setIsAdding(true)
-              const cleanName = leoProfanity.clean(name).trim()
-              const newChannel = await addNewChannel(cleanName)
-              dispatch(addChannel(newChannel))
-              dispatch(setCurrentChannel(newChannel.id))
-              toast.success(t('addChannelSuccess'))
-              closeModal('add')
-            }
-            finally {
-              setIsAdding(false)
-            }
-          }}
+          handleAdd={handleAdd}
           onClose={() => {
             closeModal('add')
           }}
@@ -233,35 +292,7 @@ function MainPage() {
       )}
       {modals.rename && (
         <RenameChannelModal
-          handleRename={async (name) => {
-            try {
-              setIsRenaming(true)
-              const cleanName = leoProfanity.clean(name)
-              const editedChannel = { name: cleanName }
-              const response = await axios.patch(
-                `/api/v1/channels/${channelToRenameId}`,
-                editedChannel,
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                },
-              )
-              dispatch(
-                updateChannel({
-                  id: response.data.id,
-                  changes: { name: response.data.name },
-                }),
-              )
-              toast.success(t('renameChannelSuccess'))
-              closeModal('rename')
-              setChannelToRenameId(null)
-              return response.data
-            }
-            finally {
-              setIsRenaming(false)
-            }
-          }}
+          handleRename={handleRename}
           onClose={() => {
             closeModal('rename')
             setChannelToRenameId(null)
@@ -281,32 +312,7 @@ function MainPage() {
             closeModal('remove')
             setRemoveError(null)
           }}
-          onSubmit={async () => {
-            try {
-              setIsRemoving(true)
-              setRemoveError(null)
-              if (currentChannelId === channelToDeleteId) {
-                dispatch(setCurrentChannel('1'))
-              }
-              await axios.delete(`/api/v1/channels/${channelToDeleteId}`, {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              })
-              dispatch(removeChannel(channelToDeleteId))
-              dispatch(removeMessagesByChannel(channelToDeleteId))
-              toast.success(t('removeChannelSuccess'))
-              setChannelToDeleteId(null)
-              closeModal('remove')
-            }
-            catch (e) {
-              console.log(e)
-              setRemoveError(t('removeChannelFailure'))
-            }
-            finally {
-              setIsRemoving(false)
-            }
-          }}
+          onSubmit={handleRemove}
         />
       )}
       <Header handleLogout={handleLogout} />
