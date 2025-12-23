@@ -2,17 +2,18 @@ import { Formik, Form, ErrorMessage } from 'formik'
 import { useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Modal({
-  title,
-  initialValues,
-  validationSchema,
-  submitText,
-  onClose,
-  onSubmit,
-  isSubmitting,
-  error,
-  children,
-}) {
+function Modal(props) {
+  const {
+    title,
+    initialValues,
+    validationSchema,
+    submitText,
+    onClose,
+    onSubmit,
+    isSubmitting,
+    error,
+    children,
+  } = props
   const isDragging = useRef(false)
   const removeBtnRef = useRef(null)
   const { t } = useTranslation()
