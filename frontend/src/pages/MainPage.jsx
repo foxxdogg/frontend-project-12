@@ -170,9 +170,9 @@ function MainPage() {
         editedChannel,
         {
           headers: {
-          Authorization: `Bearer ${token}`,
-            },
+            Authorization: `Bearer ${token}`,
           },
+        },
       )
       dispatch(
         updateChannel({
@@ -199,7 +199,7 @@ function MainPage() {
       }
       await axios.delete(`/api/v1/channels/${channelToDeleteId}`, {
         headers: {
-        Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       dispatch(removeChannel(channelToDeleteId))
