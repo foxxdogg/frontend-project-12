@@ -1,5 +1,9 @@
+install:
+	npm ci
+
 build:
-	npm run build --prefix frontend
+	make -C frontend install
+	make -C frontend build
 
 start:
 	npx start-server -s ./frontend/dist
@@ -7,8 +11,6 @@ start:
 lint-frontend:
 	make -C frontend lint
 
-install:
-	npm ci
-
 dev:
-	npm run dev
+	make -C frontend install
+	npm run dev --prefix frontend
