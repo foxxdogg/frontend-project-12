@@ -11,9 +11,8 @@ import './i18n'
 import App from './App.jsx'
 
 const rollbarConfig = {
-  accessToken:
-    '54f6d3559c64495ca22c3ad9a9eb971eff1a8b6a4b263f57b7868ca76a400172e441e0c8ea63a8bf64dcedd27a00d971',
-  environment: 'production',
+  accessToken: import.meta.env.VITE_ROLLBAR_ACCESS_TOKEN,
+  environment: import.meta.env.VITE_APP_ENV,
   captureUncaught: true,
   captureUnhandledRejections: true,
 }
