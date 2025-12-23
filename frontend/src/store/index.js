@@ -1,16 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer from './authSlice'
-import channelsReducer from './channelsSlice'
-import messagesReducer from './messagesSlice'
-
-const loggerMiddleware = storeAPI => next => (action) => {
-  const result = next(action)
-  console.groupCollapsed('Redux Action:', action.type)
-  console.log('Payload:', action.payload)
-  console.log('New State:', storeAPI.getState())
-  console.groupEnd()
-  return result
-}
+import authReducer from './slices/authSlice'
+import channelsReducer from './slices/channelsSlice'
+import messagesReducer from './slices/messagesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -18,5 +9,4 @@ export const store = configureStore({
     channels: channelsReducer,
     messages: messagesReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(loggerMiddleware),
 })

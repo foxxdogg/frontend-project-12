@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { selectMessagesByChannel } from '../store/messagesSlice'
+import { selectMessagesByChannel } from '../store/slices/messagesSlice'
 
 function MessagesList() {
   const messagesEndRef = useRef(null)

@@ -13,13 +13,13 @@ import {
   addChannel,
   removeChannel,
   updateChannel,
-} from '../store/channelsSlice'
+} from '../store/slices/channelsSlice'
 import {
   addMessages,
   addMessage,
   selectMessagesByChannel,
   removeMessagesByChannel,
-} from '../store/messagesSlice'
+} from '../store/slices/messagesSlice'
 import AddChannelModal from '../components/AddChannelModal'
 import RenameChannelModal from '../components/RenameChannelModal'
 import RemoveChannelModal from '../components/RemoveChannelModal'
@@ -28,7 +28,6 @@ import MessagesList from '../components/MessagesList'
 import useLogout from '../hooks/useLogout'
 
 leoProfanity.clearList()
-
 leoProfanity.add(leoProfanity.getDictionary('ru'))
 leoProfanity.add(leoProfanity.getDictionary('en'))
 leoProfanity.add(['boobs'])
@@ -81,15 +80,6 @@ function MainPage() {
     selectMessagesByChannel(state, currentChannelId),
   )
 
-  // useEffect(() => {
-  //   console.log('Full Redux State Snapshot:');
-  //   console.log('Token:', token);
-  //   console.log('User:', currentUser);
-  //   console.log('Channels:', channels);
-  //   console.log('Current Channel ID:', currentChannelId);
-  //   console.log('Messages:', messages);
-  // }, [token, currentUser, channels, currentChannelId, messages]);
-
   useEffect(() => {
     if (!currentUser || !token) {
       navigate('/login', { replace: true })
@@ -103,7 +93,6 @@ function MainPage() {
       const timer = setTimeout(() => {
         inputRef.current.classList.remove('input-focus')
       }, 300)
-
       return () => clearTimeout(timer)
     }
   }, [currentChannelId])
@@ -145,7 +134,6 @@ function MainPage() {
         Authorization: `Bearer ${token}`,
       },
     })
-
     return response.data
   }
 
@@ -184,36 +172,28 @@ function MainPage() {
 
   useEffect(() => {
     const socket = io('/')
-
     socket.on('connect', () => {
       setIsConnected(true)
     })
-
     socket.on('disconnect', () => {
       setIsConnected(false)
     })
-
     socket.on('connect_error', () => {
       setIsConnected(false)
       toast.error(t('connectionError'))
     })
-
     socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload))
     })
-
     socket.on('newChannel', (payload) => {
       dispatch(addChannel(payload))
     })
-
     socket.on('removeChannel', (payload) => {
       dispatch(removeChannel(payload))
     })
-
     socket.on('renameChannel', (payload) => {
       dispatch(updateChannel(payload))
     })
-
     return () => {
       socket.disconnect()
     }
@@ -251,7 +231,6 @@ function MainPage() {
           isSubmitting={isAdding}
         />
       )}
-
       {modals.rename && (
         <RenameChannelModal
           handleRename={async (name) => {
@@ -434,7 +413,6 @@ function MainPage() {
               {!isConnected && (
                 <div className="alert alert-warning py-2">{t('connectionError')}</div>
               )}
-
               {messageError && <div className="alert alert-danger py-2">{messageError}</div>}
               <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
                 <input
