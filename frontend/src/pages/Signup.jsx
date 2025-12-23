@@ -1,9 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
+import { getSignupSchema } from '../validationSchemas'
 import { login } from '../store/slices/authSlice'
 import Header from '../components/Header'
 import Focus from '../components/Focus'
@@ -12,14 +12,7 @@ import useLogout from '../hooks/useLogout'
 function Signup() {
   const { t } = useTranslation()
   const handleLogout = useLogout()
-  const schema = yup.object({
-    username: yup.string().min(3, t('range')).max(20, t('range')).required(t('required')),
-    password: yup.string().min(6, t('minLength')).required(t('required')),
-    confirmation: yup
-      .string()
-      .oneOf([yup.ref('password')], t('passwordMatch'))
-      .required(t('required')),
-  })
+  const signupSchema = getSignupSchema(t)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
@@ -64,7 +57,7 @@ function Signup() {
             <Formik
               initialValues={{ username: '', password: '', confirmation: '' }}
               onSubmit={handleSubmit}
-              validationSchema={schema}
+              validationSchema={signupSchema}
             >
               {({ isSubmitting, status }) => (
                 <Form>

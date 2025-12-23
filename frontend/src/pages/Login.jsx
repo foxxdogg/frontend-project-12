@@ -1,7 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import * as Yup from 'yup'
+
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { login } from '../store/slices/authSlice'
@@ -9,14 +9,12 @@ import { login } from '../store/slices/authSlice'
 import Header from '../components/Header'
 import Focus from '../components/Focus'
 import useLogout from '../hooks/useLogout'
+import { getLoginSchema } from '../validationSchemas'
 
 function Login() {
   const { t } = useTranslation()
+  const loginSchema = getLoginSchema(t)
   const handleLogout = useLogout()
-  const loginSchema = Yup.object({
-    username: Yup.string().required(t('required')),
-    password: Yup.string().required(t('required')),
-  })
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleSubmit = async (values, { setSubmitting, setErrors, setStatus }) => {
