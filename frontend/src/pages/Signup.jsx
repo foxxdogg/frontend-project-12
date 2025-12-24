@@ -65,14 +65,14 @@ function Signup() {
                   {status && <div className="alert alert-danger mb-3">{status}</div>}
                   <div className="form-group mb-3">
                     <label htmlFor="username">{t('username')}</label>
-                    <Field type="text" name="username" className="form-control" id="username" autoComplete="off"/>
+                    <Field type="text" name="username" className="form-control" id="username" autoComplete="off" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
                       <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
                     </div>
                   </div>
                   <div className="form-group mb-3">
                     <label htmlFor="password">{t('password')}</label>
-                    <Field type="password" name="password" className="form-control" id="password" autoComplete="off"/>
+                    <Field type="password" name="password" className="form-control" id="password" autoComplete="off" />
                     <div style={{ minHeight: '30px', color: 'red' }}>
                       <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                     </div>
