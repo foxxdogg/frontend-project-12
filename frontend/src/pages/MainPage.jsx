@@ -426,6 +426,7 @@ function MainPage() {
                   type="text"
                   className="form-control me-3"
                   placeholder={t('enterMessagePlaceholder')}
+                  autoComplete="off"
                   value={messageText}
                   aria-label="Новое сообщение"
                   onChange={(e) => {

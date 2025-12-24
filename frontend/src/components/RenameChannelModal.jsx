@@ -52,6 +52,7 @@ function RenameChannelModal({
         aria-label={t('channelName')}
         placeholder={placeholder}
         innerRef={inputRef}
+        autoComplete="off"
       />
     </Modal>
   )

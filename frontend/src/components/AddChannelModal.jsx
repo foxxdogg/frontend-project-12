@@ -36,6 +36,7 @@ function AddChannelModal({ channels, handleAdd, onClose, error, isSubmitting }) 
         aria-label={t('channelName')}
         placeholder={t('channelName')}
         autoFocus
+        autoComplete="off"
       />
     </Modal>
   )
