@@ -19,7 +19,11 @@
 *   **Связь:** Socket.io-client, Axios.
 *   **Интернационализация:** i18next.
 
-## Демо
+## 📸 Демонстрация работы
+
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/70e3d8a1-c8a3-47de-8cc4-60ffd3954947" width="100%" controls loop></video>
+</p>
 
 ---
 *Автор: [foxxdogg](https://github.com)*
